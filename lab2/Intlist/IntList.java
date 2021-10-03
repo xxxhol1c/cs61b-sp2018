@@ -11,11 +11,11 @@ public class IntList {
     /**
      * First element of list.
      */
-    private int first;
+    public int first;
     /**
      * Remaining elements of list.
      */
-    private IntList rest;
+    public IntList rest;
 
     /**
      * A List with first FIRST0 and rest REST0.
@@ -111,14 +111,14 @@ public class IntList {
 
     public static IntList catenateIterative(IntList A, IntList B) {
         IntList res = new IntList(A.first, null);
-        IntList copy_A = A.rest;
-        IntList copy_res = res;
-        while (copy_A != null) {
-            copy_res.rest = new IntList(copy_A.first, null);
-            copy_A = copy_A.rest;
-            copy_res = copy_res.rest;
+        IntList copyA = A.rest;
+        IntList copyres = res;
+        while (copyA != null) {
+            copyres.rest = new IntList(copyA.first, null);
+            copyA = copyA.rest;
+            copyres = copyres.rest;
         }
-        copy_res.rest = B;
+        copyres.rest = B;
         return res;
     }
 
