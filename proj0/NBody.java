@@ -48,6 +48,7 @@ public class NBody {
 
         
         /* a graphics technique to prevent flickering in the animation. */
+        StdDraw.enableDoubleBuffering();
         for (double time = 0; time < T; time += dt) {
             double[] xForce = new double [n];
             double[] yForce = new double [n]; 
