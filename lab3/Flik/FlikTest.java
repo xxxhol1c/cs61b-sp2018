@@ -5,14 +5,15 @@ public class FlikTest {
 
     @Test
     public void testFlik() {
-            int a = 128;
-            int b = 128;
-            int c = 129;
+        int a = 128;
+        int b = 128;
+        int c = 129;
 
-            boolean same = Flik.isSameNumber(a, b);
-            boolean different = Flik.isSameNumber(a, c);
-            assertTrue(same);
-            assertFalse(different);
+        boolean same = Flik.isSameNumber(a, b);
+        boolean different = Flik.isSameNumber(a, c);
+        assertTrue(same);
+        assertFalse(different);
+
     }
 
 }
