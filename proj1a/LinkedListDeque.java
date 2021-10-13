@@ -103,7 +103,7 @@ public class LinkedListDeque<T> {
     }
 
     /* uses recursive method to get the item */
-    private T getRecursive(int index) {
+    public T getRecursive(int index) {
         if (index >= size || index < 0) {
             return null;
         }
@@ -111,7 +111,7 @@ public class LinkedListDeque<T> {
     }
 
     /* Need a helper function to resolve the node */
-    public T getRecursiveHelper(Node curr, int i) {
+    private T getRecursiveHelper(Node curr, int i) {
         if (i == 0) {
             return curr.item;
         }
