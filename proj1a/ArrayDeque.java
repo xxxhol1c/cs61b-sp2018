@@ -36,20 +36,21 @@ public class ArrayDeque<T> {
         T[] newItems  = (T[]) new Object[newCapacity];
         int currentFrontIndex = onePlus(nextFirst);
         int currentEndIndex = oneMinus(nextLast);
-        // separate the array into two parts
-        int lengthFront = capacity - currentFrontIndex;
-        int lengthEnd = currentEndIndex + 1;
         // copy the two part
         if (currentEndIndex <= currentFrontIndex) {
+            // separate the array into two parts
+            int lengthFront = capacity - currentFrontIndex;
+            int lengthEnd = currentEndIndex + 1;
             int newFrontIndex = newCapacity - lengthFront;
             System.arraycopy(items, currentFrontIndex, newItems, newFrontIndex, lengthFront);
             System.arraycopy(items, 0, newItems, 0, lengthEnd);
             nextFirst = newFrontIndex - 1;
 
-        } else {  // special case: care the nextLast needed to be changed
-            System.arraycopy(items, 0, newItems, 0, lengthEnd);
+        } else {  //
+            int length = currentEndIndex - currentFrontIndex + 1;
+            System.arraycopy(items, currentFrontIndex, newItems, 0, length);
             nextFirst = newCapacity - 1;
-            nextLast = lengthEnd;
+            nextLast = length;
         }
         capacity = newCapacity;
         items = newItems;
@@ -123,8 +124,9 @@ public class ArrayDeque<T> {
         }
         int removedIndex = onePlus(nextFirst);
         T result = items[removedIndex];
-        nextFirst = removedIndex;
+
         items[removedIndex] = null;
+        nextFirst = removedIndex;
         size -= 1;
         /* maybe need resize DONE */
         cut();
@@ -137,8 +139,9 @@ public class ArrayDeque<T> {
         }
         int removedIndex = oneMinus(nextLast);
         T result = items[removedIndex];
-        nextLast = removedIndex;
+
         items[removedIndex] = null;
+        nextLast = removedIndex;
         size -= 1;
         /* maybe need resize DONE */
         cut();

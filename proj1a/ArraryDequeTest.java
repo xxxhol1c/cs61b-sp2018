@@ -145,4 +145,53 @@ public class ArraryDequeTest {
             } */
         }
     }
+
+    /** following tests are created due to the failure of GradeScope */
+
+    /* Extra test for the fill up  */
+    @Test
+    public void fillTest() {
+        ArrayDeque<Integer> test8 = new ArrayDeque<>();
+        for (int i = 0; i < 8; i++) {
+            test8.addFirst(i);
+        }
+        test8.printDeque();
+        for (int i = 0; i < 8; i++) {
+            int removed = test8.removeFirst();
+            assertEquals(7 - i, removed);
+        }
+        assertEquals(0, test8.size());
+        for (int i = 0; i < 16; i++) {
+            test8.addFirst(i);
+        }
+        assertEquals(16, test8.size());
+    }
+
+    /* Extra multi-ADs test */
+    @Test
+    public void testMulti() {
+        ArrayDeque<Integer> test9 = new ArrayDeque<>();
+        ArrayDeque<Integer> test10 = new ArrayDeque<>();
+
+        for (int i = 0; i < 8; i++) {
+            test9.addFirst(i);
+            test10.addLast(i);
+        }
+        for (int i = 0; i < 8; i++) {
+            int removed1 = test9.removeFirst();
+            int removed2 = test10.removeLast();
+            assertEquals(7 - i, removed1);
+            assertEquals(7 - i, removed2);
+        }
+        assertEquals(0, test9.size());
+        assertEquals(0, test10.size());
+        for (int i = 0; i < 16; i++) {
+            test9.addFirst(i);
+            test10.addLast(i);
+        }
+        assertEquals(16, test9.size());
+        assertEquals(16, test10.size());
+    }
+
 }
+
