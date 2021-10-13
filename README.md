@@ -9,5 +9,5 @@
 >   ` 1. the front index is smaller than the end, which means there is no circulation.`  
 >   ` 2. the front index is larger, which means there is a circulation. `  
 >   
->   To solve the case1: you need to separate the AD into two parts and respectively copy to the new AD.  
->   You also need to revise the index attribute. Do more tests to make sure you implement doesn't pass the cases coincidentally.
+>   To solve the case2: you need to separate the AD into two parts and respectively copy to the new AD.  
+>   You also need to revise the index attribute. `Especially case1!` Do more tests `eg. remove and fill again` to make sure you implement doesn't pass the cases coincidentally.
