@@ -5,36 +5,67 @@ public class ArraryDequeTest {
 
     @Test
     public void addTest() {
-        ArrayDeque<Integer> test1 = new ArrayDeque<>();
-        assertTrue(test1.isEmpty());
-        test1.addFirst(1);
-        test1.addFirst(2);
-        test1.addLast(3);
-        test1.addLast(4);
-        assertEquals(4, test1.size());
-        test1.addLast(5);
-        assertEquals(5, test1.size());
+        ArrayDeque<Integer> test0 = new ArrayDeque<>();
+        assertTrue(test0.isEmpty());
+        test0.addFirst(1);
+        test0.addFirst(2);
+        test0.addLast(3);
+        test0.addLast(4);
+        assertEquals(4, test0.size());
+        test0.addLast(5);
+        assertEquals(5, test0.size());
         // it should be [2][1][3][4][5]
-        test1.printDeque();
+        test0.printDeque();
     }
 
     @Test
     public void removeTest() {
-        ArrayDeque<Integer> test2 = new ArrayDeque<>();
-        assertTrue(test2.isEmpty());
-        test2.addFirst(1);
-        test2.addFirst(2);
-        test2.addLast(2);
-        test2.addLast(3);
-        test2.addLast(4);
-        assertEquals(5, test2.size());
-        int removedFirst = test2.removeFirst();
-        int removedLast = test2.removeLast();
+        ArrayDeque<Integer> test1 = new ArrayDeque<>();
+        assertTrue(test1.isEmpty());
+        test1.addFirst(1);
+        test1.addFirst(2);
+        test1.addLast(2);
+        test1.addLast(3);
+        test1.addLast(4);
+        assertEquals(5, test1.size());
+        int removedFirst = test1.removeFirst();
+        int removedLast = test1.removeLast();
         assertEquals(2, removedFirst);
         assertEquals(4, removedLast);
-        assertEquals(3, test2.size());
+        assertEquals(3, test1.size());
         // it should be [1][2][3]
-        test2.printDeque();
+        test1.printDeque();
+        test1.removeLast();
+        test1.removeLast();
+        test1.removeLast();
+        test1.removeLast();
+        assertEquals(0, test1.size());
+        test1.addLast(2);
+        assertEquals(1, test1.size());
+    }
+
+    @Test
+    public void addRemoveGet() {
+        ArrayDeque<Integer> test2 = new ArrayDeque<>();
+        test2.addFirst(0);
+        int point1 = test2.get(0);
+        assertEquals(0, point1);
+        int point2 = test2.removeLast();
+        assertEquals(0, point2);
+        test2.addFirst(5);
+        test2.addFirst(6);
+        test2.addLast(7);
+        test2.addFirst(8);
+        test2.addFirst(9);
+        test2.addFirst(10);
+        test2.addLast(11);
+        int point3 = test2.get(6);
+        assertEquals(11, point3);
+        test2.addLast(13);
+        int point4 = test2.removeLast();
+        assertEquals(13, point4);
+        int point5 = test2.removeFirst();
+        assertEquals(10, point5);
     }
 
     @Test

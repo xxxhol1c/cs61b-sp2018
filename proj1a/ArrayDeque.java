@@ -118,6 +118,9 @@ public class ArrayDeque<T> {
     /* remove and return the item at first or last
      * modify the other attributes */
     public T removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
         int removedIndex = onePlus(nextFirst);
         T result = items[removedIndex];
         nextFirst = removedIndex;
@@ -129,6 +132,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
+        if (isEmpty()) {
+            return null;
+        }
         int removedIndex = oneMinus(nextLast);
         T result = items[removedIndex];
         nextLast = removedIndex;
