@@ -1,10 +1,11 @@
-/* This project is to implement the basic framework and method of deque, some methods and implement theory has been introduced in the lecture
+/**This project is to implement the basic framework and method of deque,
+ * some methods and implement theory has been introduced in the lecture
  * This project uses circular sentinel to implement the actual function
- * The definition of the deque : Deque (usually pronounced like “deck”) is an irregular acronym of double-ended queue.
+ * Deque (usually pronounced like “deck”) is an irregular acronym of double-ended queue.
  * Double-ended queues are sequence containers with dynamic sizes
  * that can be expanded or contracted on both ends (either its front or its back).*/
 
-public class LinkedListDeque <T> {
+public class LinkedListDeque<T> {
 
     private class Node {
         T item;
@@ -114,7 +115,7 @@ public class LinkedListDeque <T> {
         if (i == 0) {
             return curr.item;
         }
-        return getRecursiveHelper(curr.next, i-1);
+        return getRecursiveHelper(curr.next, i - 1);
     }
 
     /* some extra tests to check the method whether work correctly */
