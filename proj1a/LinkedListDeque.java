@@ -103,7 +103,7 @@ public class LinkedListDeque<T> {
     }
 
     /* uses recursive method to get the item */
-    public T getRecursive(int index) {
+    private T getRecursive(int index) {
         if (index >= size || index < 0) {
             return null;
         }
@@ -119,7 +119,7 @@ public class LinkedListDeque<T> {
     }
 
     /* some extra tests to check the method whether work correctly */
-    public static void main(String[] args) {
+    private static void main(String[] args) {
 
         /* Test add method and remove method work correctly */
         LinkedListDeque<String> lld1 = new LinkedListDeque<>();

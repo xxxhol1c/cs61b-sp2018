@@ -5,7 +5,7 @@ public class ArrayDeque<T> {
     private int nextFirst;
     private int nextLast;
     private T[] items;
-    public int capacity;
+    private int capacity;
     private static int minCapacity = 16;
     private static double minUsage = 0.25;
 
@@ -30,69 +30,9 @@ public class ArrayDeque<T> {
         return size;
     }
 
-    /* move the index forward one place and notice the circular condition */
-    public int oneMinus(int index) {
-        if (index == 0) {
-            return capacity - 1;
-        }
-        return index - 1;
-    }
-
-    /* move the index back one place and notice the circular condition */
-    public int onePlus(int index) {
-        if (index == capacity - 1) {
-            return 0;
-        }
-        return index + 1;
-    }
-
-    /* add the item at the first position and modify the other attributes */
-    public void addFirst(T item) {
-        items[nextFirst] = item;
-        nextFirst = oneMinus(nextFirst);
-        size++;
-        /* maybe need resize [Done] */
-        if (size == capacity) {
-            int newCapacity = capacity * 2;
-            resize(newCapacity);
-        }
-    }
-
-    /* cut down the size after remove */
-    public void cut() {
-        double usage = (double) size / capacity;
-        if (capacity >= minCapacity && usage < minUsage) {
-            int newCapacity = capacity / 2;
-            resize(newCapacity);
-        }
-    }
-
-    /* add the item at the last position and modify the other attributes */
-    public void addLast(T item) {
-        items[nextLast] = item;
-        nextLast = onePlus(nextLast);
-        size += 1;
-        /* maybe need resize [Done] */
-        if (size == capacity) {
-            int newCapacity = capacity * 2;
-            resize(newCapacity);
-        }
-    }
-
-    /* print the array deque
-     * start from the index after the nextFirst and notice the circulation */
-    public void printArrary() {
-        int currIndex = onePlus(nextFirst);
-        while (currIndex != nextLast) {
-            System.out.print(items[currIndex] + " ");
-            currIndex = onePlus(currIndex);
-        }
-        System.out.println();
-    }
-
     /** To implement the resize method, you need copy the current array to a new array
      * and need to cut the original array into two pieces */
-    public void resize(int newCapacity) {
+    private void resize(int newCapacity) {
         T[] newItems  = (T[]) new Object[newCapacity];
         int currentFrontIndex = onePlus(nextFirst);
         int currentEndIndex = oneMinus(nextLast);
@@ -115,6 +55,65 @@ public class ArrayDeque<T> {
         items = newItems;
     }
 
+    /* move the index forward one place and notice the circular condition */
+    private int oneMinus(int index) {
+        if (index == 0) {
+            return capacity - 1;
+        }
+        return index - 1;
+    }
+
+    /* move the index back one place and notice the circular condition */
+    private int onePlus(int index) {
+        if (index == capacity - 1) {
+            return 0;
+        }
+        return index + 1;
+    }
+
+    /* cut down the size after remove */
+    private void cut() {
+        double usage = (double) size / capacity;
+        if (capacity >= minCapacity && usage < minUsage) {
+            int newCapacity = capacity / 2;
+            resize(newCapacity);
+        }
+    }
+
+    /* add the item at the first position and modify the other attributes */
+    public void addFirst(T item) {
+        items[nextFirst] = item;
+        nextFirst = oneMinus(nextFirst);
+        size++;
+        /* maybe need resize [Done] */
+        if (size == capacity) {
+            int newCapacity = capacity * 2;
+            resize(newCapacity);
+        }
+    }
+
+    /* add the item at the last position and modify the other attributes */
+    public void addLast(T item) {
+        items[nextLast] = item;
+        nextLast = onePlus(nextLast);
+        size += 1;
+        /* maybe need resize [Done] */
+        if (size == capacity) {
+            int newCapacity = capacity * 2;
+            resize(newCapacity);
+        }
+    }
+
+    /* print the array deque
+     * start from the index after the nextFirst and notice the circulation */
+    public void printDeque() {
+        int currIndex = onePlus(nextFirst);
+        while (currIndex != nextLast) {
+            System.out.print(items[currIndex] + " ");
+            currIndex = onePlus(currIndex);
+        }
+        System.out.println();
+    }
 
     /* remove and return the item at first or last
      * modify the other attributes */
@@ -124,10 +123,9 @@ public class ArrayDeque<T> {
         nextFirst = removedIndex;
         items[removedIndex] = null;
         size -= 1;
+        /* maybe need resize DONE */
         cut();
         return result;
-        /* maybe need resize DONE */
-
     }
 
     public T removeLast() {
@@ -136,15 +134,13 @@ public class ArrayDeque<T> {
         nextLast = removedIndex;
         items[removedIndex] = null;
         size -= 1;
+        /* maybe need resize DONE */
         cut();
         return result;
-        /* maybe need resize DONE */
-
     }
 
     /** get the item of given index
      * Caution : it should take constant time, I originally used iteration */
-
     public T get(int index) {
         int firstIndex = onePlus(nextFirst) + index;
         if (firstIndex >= capacity) {

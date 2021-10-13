@@ -15,7 +15,7 @@ public class ArraryDequeTest {
         test1.addLast(5);
         assertEquals(5, test1.size());
         // it should be [2][1][3][4][5]
-        test1.printArrary();
+        test1.printDeque();
     }
 
     @Test
@@ -34,7 +34,7 @@ public class ArraryDequeTest {
         assertEquals(4, removedLast);
         assertEquals(3, test2.size());
         // it should be [1][2][3]
-        test2.printArrary();
+        test2.printDeque();
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ArraryDequeTest {
             test4.addLast(i);
         }
         // it should be [4][3][2][1][0][5][6][7][8][9]
-        test4.printArrary();
+        test4.printDeque();
         assertEquals(10, test4.size());
         int actual1 = test4.get(0);
         assertEquals(4, actual1);
@@ -79,7 +79,7 @@ public class ArraryDequeTest {
             test5.addFirst(i);
         }
         // it should be [99]....[0]
-        test5.printArrary();
+        test5.printDeque();
         assertEquals(16, test5.size());
         int actual3 = test5.get(0);
         assertEquals(15, actual3);
@@ -91,7 +91,7 @@ public class ArraryDequeTest {
             test6.addLast(i);
         }
         // it should be [0]....[99]
-        test6.printArrary();
+        test6.printDeque();
         assertEquals(100, test6.size());
         int actual5 = test6.get(0);
         assertEquals(0, actual5);
@@ -107,10 +107,11 @@ public class ArraryDequeTest {
         }
         for (int i = 0; i < 100; i++) {
             test7.removeFirst();
+            /* GradeScope need the capacity to be private so
             if (test7.capacity >= 16) {
                 double usage = (double) test7.size() / test7.capacity;
                 assertTrue(usage >= 0.25);
-            }
+            } */
         }
     }
 }
