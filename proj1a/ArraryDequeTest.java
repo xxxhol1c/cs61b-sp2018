@@ -146,7 +146,7 @@ public class ArraryDequeTest {
         }
     }
 
-    /** following tests are created due to the failure of GradeScope */
+    /** Following tests are added due to my failure on GradeScope */
 
     /* Extra test for the fill up  */
     @Test
