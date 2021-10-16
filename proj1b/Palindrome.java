@@ -9,6 +9,7 @@ public class Palindrome {
         return words;
     }
 
+    /*
     public boolean isPalindrome(String word) {
         Deque<Character> d = wordToDeque(word);
         while (d.size() > 1) {
@@ -27,35 +28,35 @@ public class Palindrome {
             }
         }
         return true;
-    }
+    } */
 
     /* Check whether the given string is a Palindrome using recursion */
-    public boolean isPalindromeRecursive(String word) {
+    private boolean isPalindrome(String word) {
         Deque<Character> p = wordToDeque(word);
-        return isPalindromeHelperRecursive(p);
+        return isPalindromeHelper(p);
     }
 
     /* Helper method uses recursion */
-    private boolean isPalindromeHelperRecursive(Deque<Character> p) {
+    private boolean isPalindromeHelper(Deque<Character> p) {
         if (p.isEmpty() || p.size() == 1) {
             return true;
         } else if (p.removeFirst() == p.removeLast()) {
-            return isPalindromeHelperRecursive(p);
+            return isPalindromeHelper(p);
         } else {
             return false;
         }
     }
 
-    public boolean isPalindromeRecursive(String word, CharacterComparator cc) {
+    private boolean isPalindrome(String word, CharacterComparator cc) {
         Deque<Character> p = wordToDeque(word);
-        return isPalindromeHelperRecursive(p, cc);
+        return isPalindromeHelper(p, cc);
     }
 
-    private boolean isPalindromeHelperRecursive(Deque<Character> p, CharacterComparator cc) {
+    private boolean isPalindromeHelper(Deque<Character> p, CharacterComparator cc) {
         if (p.isEmpty() || p.size() == 1) {
             return true;
         } else if (cc.equalChars(p.removeFirst(), p.removeLast())) {
-            return isPalindromeHelperRecursive(p, cc);
+            return isPalindromeHelper(p, cc);
         } else {
             return false;
         }
