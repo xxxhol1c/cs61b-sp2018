@@ -15,7 +15,7 @@ public class TestOffByN {
         assertFalse(offByFive.equalChars('a', 'j'));
         assertFalse(offByFive.equalChars('A', 'b'));
         assertFalse(offByFive.equalChars('A', 'C'));
-
+        assertFalse(offByFive.equalChars('C', 'C'));
     }
 
 }

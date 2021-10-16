@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 
 public class TestPalindrome {
     // You must use this palindrome, and not instantiate
-    // new Palindromes, or the autograder might be upset.
+    // new Palindromes, or the AutoGrader might be upset.
     static Palindrome palindrome = new Palindrome();
 
     @Test
@@ -29,6 +29,7 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome(""));
         assertTrue(palindrome.isPalindrome("noon"));
         assertFalse(palindrome.isPalindrome("abc"));
+        assertFalse(palindrome.isPalindrome("abd"));
     }
 
     // Test OffByOne palindrome

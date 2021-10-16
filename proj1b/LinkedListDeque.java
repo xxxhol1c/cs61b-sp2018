@@ -58,7 +58,7 @@ public class LinkedListDeque<T> implements Deque<T>  {
         Node target = new Node(item, sentinel, sentinel.next);
         sentinel.next = target;
         sentinel.next.next.prev = target;
-        size++;
+        size += 1;
     }
 
     /* add the item at the last position */
@@ -67,7 +67,7 @@ public class LinkedListDeque<T> implements Deque<T>  {
         Node target = new Node(item, sentinel.prev, sentinel);
         sentinel.prev = target;
         sentinel.prev.prev.next = target;
-        size++;
+        size += 1;
     }
 
     /* remove and return the item at the first position */
@@ -79,7 +79,7 @@ public class LinkedListDeque<T> implements Deque<T>  {
         T node = sentinel.next.item;
         sentinel.next = sentinel.next.next;
         sentinel.next.prev = sentinel;
-        size--;
+        size -= 1;
         return node;
     }
 
@@ -92,7 +92,7 @@ public class LinkedListDeque<T> implements Deque<T>  {
         T node = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.next = sentinel;
-        size--;
+        size -= 1;
         return node;
     }
 

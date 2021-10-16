@@ -9,7 +9,7 @@ public class Palindrome {
         return words;
     }
 
-    /*
+    /**
     public boolean isPalindrome(String word) {
         Deque<Character> d = wordToDeque(word);
         while (d.size() > 1) {
@@ -37,7 +37,7 @@ public class Palindrome {
     }
 
     /* Helper method uses recursion */
-    public boolean isPalindromeHelper(Deque<Character> p) {
+    private boolean isPalindromeHelper(Deque<Character> p) {
         if (p.isEmpty() || p.size() == 1) {
             return true;
         } else if (p.removeFirst() == p.removeLast()) {
@@ -52,7 +52,7 @@ public class Palindrome {
         return isPalindromeHelper(p, cc);
     }
 
-    public boolean isPalindromeHelper(Deque<Character> p, CharacterComparator cc) {
+    private boolean isPalindromeHelper(Deque<Character> p, CharacterComparator cc) {
         if (p.isEmpty() || p.size() == 1) {
             return true;
         } else if (cc.equalChars(p.removeFirst(), p.removeLast())) {
