@@ -14,46 +14,35 @@ public class TestPalindrome {
             actual += d.removeFirst();
         }
         assertEquals("persiflage", actual);
+
+        Deque e = palindrome.wordToDeque("palindrome");
+        String actual2 = "";
+        for (int i = 0; i < "palindrome".length(); i += 1) {
+            actual2 += e.removeFirst();
+        }
+        assertEquals("palindrome", actual2);
     }
 
     @Test
     public void testIsPalindrome() {
-        assertTrue(palindrome.isPalindrome(""));
         assertTrue(palindrome.isPalindrome("a"));
+        assertTrue(palindrome.isPalindrome(""));
         assertTrue(palindrome.isPalindrome("noon"));
-        assertFalse(palindrome.isPalindrome("horse"));
-        assertFalse(palindrome.isPalindrome("aaab"));
-        assertFalse(palindrome.isPalindrome("abA"));
+        assertFalse(palindrome.isPalindrome("abc"));
     }
 
+    // Test OffByOne palindrome
     @Test
-    public void testOffByOne() {
-        CharacterComparator cc = new OffByOne();
-        assertTrue(palindrome.isPalindrome("", cc));
-        assertTrue(palindrome.isPalindrome("a", cc));
-        assertTrue(palindrome.isPalindrome("flake", cc));
-        assertFalse(palindrome.isPalindrome("aabaa", cc));
-        assertFalse(palindrome.isPalindrome("noon", cc));
+    public void testPalindromeOffByOne() {
+        CharacterComparator c = new OffByOne();
+        assertTrue(palindrome.isPalindrome("flake", c));
+        assertTrue(palindrome.isPalindrome("lak", c));
+        assertTrue(palindrome.isPalindrome(" u!",  c));
+        assertFalse(palindrome.isPalindrome("noon", c));
+        assertFalse(palindrome.isPalindrome("AbA", c));
     }
-
-    @Test
-    public void testOffBy5() {
-        CharacterComparator cc = new OffByN(5);
-        assertTrue(palindrome.isPalindrome("", cc));
-        assertTrue(palindrome.isPalindrome("a", cc));
-        assertTrue(palindrome.isPalindrome("bing", cc));
-        assertFalse(palindrome.isPalindrome("aabaa", cc));
-        assertFalse(palindrome.isPalindrome("noon", cc));
-    }
-
-    // @Test
-    // public void testIsPalindromeRecursive() {
-    //     assertTrue(palindrome.isPalindromeRecursive(""));
-    //     assertTrue(palindrome.isPalindromeRecursive("a"));
-    //     assertTrue(palindrome.isPalindromeRecursive("noon"));
-    //     assertFalse(palindrome.isPalindromeRecursive("horse"));
-    //     assertFalse(palindrome.isPalindromeRecursive("aaab"));
-    //     assertFalse(palindrome.isPalindromeRecursive("abA"));
-    // }
-
 }
+
+
+
+

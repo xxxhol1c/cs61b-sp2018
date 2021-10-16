@@ -1,10 +1,12 @@
 public class Palindrome {
+    /* convert the given string to Deque */
     public Deque<Character> wordToDeque(String word) {
-        Deque<Character> res = new ArrayDeque<>();
-        for (int i = 0; i < word.length(); i++) {
-            res.addLast(word.charAt(i));
+        Deque<Character> words = new LinkedListDeque<>();
+        for (int i = 0; i < word.length(); i += 1) {
+            char item = word.charAt(i);
+            words.addLast(item);
         }
-        return res;
+        return words;
     }
 
     public boolean isPalindrome(String word) {
@@ -27,18 +29,36 @@ public class Palindrome {
         return true;
     }
 
-    // public boolean isPalindromeRecursive(String word) {
-    //     Deque<Character> d = wordToDeque(word);
-    //     return isPalindromeRecursive(d);
-    // }
+    /* Check whether the given string is a Palindrome using recursion */
+    public boolean isPalindromeRecursive(String word) {
+        Deque<Character> p = wordToDeque(word);
+        return isPalindromeHelperRecursive(p);
+    }
 
-    // private boolean isPalindromeRecursive(Deque<Character> d) {
-    //     if (d.size() <= 1) {
-    //         return true;
-    //     }
-    //     if (d.removeFirst() != d.removeLast()) {
-    //         return false;
-    //     }
-    //     return isPalindromeRecursive(d);
-    // }
+    /* Helper method uses recursion */
+    private boolean isPalindromeHelperRecursive(Deque<Character> p) {
+        if (p.isEmpty() || p.size() == 1) {
+            return true;
+        } else if (p.removeFirst() == p.removeLast()) {
+            return isPalindromeHelperRecursive(p);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isPalindromeRecursive(String word, CharacterComparator cc) {
+        Deque<Character> p = wordToDeque(word);
+        return isPalindromeHelperRecursive(p, cc);
+    }
+
+    private boolean isPalindromeHelperRecursive(Deque<Character> p, CharacterComparator cc) {
+        if (p.isEmpty() || p.size() == 1) {
+            return true;
+        } else if (cc.equalChars(p.removeFirst(), p.removeLast())) {
+            return isPalindromeHelperRecursive(p, cc);
+        } else {
+            return false;
+        }
+    }
 }
+

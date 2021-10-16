@@ -8,14 +8,17 @@ public class TestOffByOne {
 
     // Your tests go here.
     @Test
-    public void testEqualChars() {
+    public void testEqualChar() {
         assertTrue(offByOne.equalChars('a', 'b'));
-        assertTrue(offByOne.equalChars('&', '%'));
-        assertFalse(offByOne.equalChars('a', 'e'));
-        assertFalse(offByOne.equalChars('A', 'b'));
         assertTrue(offByOne.equalChars('r', 'q'));
+        assertTrue(offByOne.equalChars('&', '%'));
+        assertTrue(offByOne.equalChars(' ', '!'));
         assertTrue(offByOne.equalChars('A', 'B'));
-        assertFalse(offByOne.equalChars('z', 'a'));
-        assertFalse(offByOne.equalChars('a', 'a'));
+        assertFalse(offByOne.equalChars('A', 'b'));
+        assertFalse(offByOne.equalChars('a', 'c'));
+        assertFalse(offByOne.equalChars('c', 'c'));
+        assertFalse(offByOne.equalChars('a', 'z'));
+        assertFalse(offByOne.equalChars('A', 'C'));
+
     }
 }

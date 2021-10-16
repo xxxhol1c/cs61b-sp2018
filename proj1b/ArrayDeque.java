@@ -1,159 +1,171 @@
-/**
- * Deque implemented by array.
- */
+
 public class ArrayDeque<T> implements Deque<T> {
 
+    private int size;
+    private int nextFirst;
+    private int nextLast;
     private T[] items;
-    private int left;
-    private int right;
-    private int capacity = 8;
 
+    /** In your tests, you may need to change capacity to the public,
+     * Don't forget to change it back */
+    private int capacity;
+    private static int minCapacity = 16;
+    private static double minUsage = 0.25;
+
+
+    /* create the empty array and make the index point
+     *  For the convenience of addFirst, I set the initial index at the last*/
     public ArrayDeque() {
+        capacity = 8;
         items = (T[]) new Object[capacity];
-        left = right = 0;
+        nextFirst = capacity - 1;
+        nextLast = 0;
+        size = 0;
     }
 
-    /** Adds an item of type T to the front of the deque. */
-    @Override
-    public void addFirst(T item) {
-        if (isFull()) {
-            resize((int) (capacity * 1.5));
-        }
-        left = (left - 1 + capacity) % capacity;
-        items[left] = item;
-    }
-
-    /** Adds an item of type T to the back of the deque. */
-    @Override
-    public void addLast(T item) {
-        if (isFull()) {
-            resize((int) (capacity * 1.5));
-        }
-        items[right] = item;
-        right = (right + 1 + capacity) % capacity;
-    }
-
-    /** Returns true if deque is empty, false otherwise. */
+    /* Check whether the array is empty */
     @Override
     public boolean isEmpty() {
-        return left == right;
+        return size == 0;
     }
 
-    /** Returns the number of items in the deque. */
+    /* return the size */
     @Override
     public int size() {
-        return (right - left + capacity) % capacity;
+        return size;
     }
 
-    /** Prints the items in the deque from first to last, separated by a space. */
-    @Override
-    public void printDeque() {
-        if (left < right) {
-            for (int i = left; i < right; i++) {
-                if (i == right - 1) {
-                    System.out.println(items[i]);
-                    break;
-                }
-                System.out.print(items[i] + " ");
-            }
-        } else if (left > right) {
-            for (int i = left; i < capacity; i++) {
-                System.out.print(items[i] + " ");
-            }
-            for (int i = 0; i < right; i++) {
-                if (i == right - 1) {
-                    System.out.println(items[i]);
-                    break;
-                }
-                System.out.print(items[i] + " ");
-            }
+    /** To implement the resize method, you need copy the current array to a new array
+     * and need to cut the original array into two pieces */
+    private void resize(int newCapacity) {
+        T[] newItems  = (T[]) new Object[newCapacity];
+        int currentFrontIndex = onePlus(nextFirst);
+        int currentEndIndex = oneMinus(nextLast);
+        // copy the two part
+        if (currentEndIndex <= currentFrontIndex) {
+            // separate the array into two parts
+            int lengthFront = capacity - currentFrontIndex;
+            int lengthEnd = currentEndIndex + 1;
+            int newFrontIndex = newCapacity - lengthFront;
+            System.arraycopy(items, currentFrontIndex, newItems, newFrontIndex, lengthFront);
+            System.arraycopy(items, 0, newItems, 0, lengthEnd);
+            nextFirst = newFrontIndex - 1;
+
+        } else {  //
+            int length = currentEndIndex - currentFrontIndex + 1;
+            System.arraycopy(items, currentFrontIndex, newItems, 0, length);
+            nextFirst = newCapacity - 1;
+            nextLast = length;
+        }
+        capacity = newCapacity;
+        items = newItems;
+    }
+
+    /* move the index forward one place and notice the circular condition */
+    private int oneMinus(int index) {
+        if (index == 0) {
+            return capacity - 1;
+        }
+        return index - 1;
+    }
+
+    /* move the index back one place and notice the circular condition */
+    private int onePlus(int index) {
+        if (index == capacity - 1) {
+            return 0;
+        }
+        return index + 1;
+    }
+
+    /* cut down the size after remove */
+    private void cut() {
+        double usage = (double) size / capacity;
+        if (capacity >= minCapacity && usage < minUsage) {
+            int newCapacity = capacity / 2;
+            resize(newCapacity);
         }
     }
 
-    /**
-     * Removes and returns the item at the front of the deque. If no such item
-     * exists, returns null.
-     */
+    /* add the item at the first position and modify the other attributes */
+    @Override
+    public void addFirst(T item) {
+        items[nextFirst] = item;
+        nextFirst = oneMinus(nextFirst);
+        size++;
+        /* maybe need resize [Done] */
+        if (size == capacity) {
+            int newCapacity = capacity * 2;
+            resize(newCapacity);
+        }
+    }
+
+    /* add the item at the last position and modify the other attributes */
+    @Override
+    public void addLast(T item) {
+        items[nextLast] = item;
+        nextLast = onePlus(nextLast);
+        size += 1;
+        /* maybe need resize [Done] */
+        if (size == capacity) {
+            int newCapacity = capacity * 2;
+            resize(newCapacity);
+        }
+    }
+
+    /* print the array deque
+     * start from the index after the nextFirst and notice the circulation */
+    @Override
+    public void printDeque() {
+        int currIndex = onePlus(nextFirst);
+        while (currIndex != nextLast) {
+            System.out.print(items[currIndex] + " ");
+            currIndex = onePlus(currIndex);
+        }
+        System.out.println();
+    }
+
+    /* remove and return the item at first or last
+     * modify the other attributes */
     @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
         }
-        T res = items[left];
-        left = (left + 1) % capacity;
-        if (isLowUsageRate()) {
-            resize((int) (capacity * 0.5));
-        }
-        return res;
+        int removedIndex = onePlus(nextFirst);
+        T result = items[removedIndex];
+
+        items[removedIndex] = null;
+        nextFirst = removedIndex;
+        size -= 1;
+        /* maybe need resize DONE */
+        cut();
+        return result;
     }
 
-    /**
-     * Removes and returns the item at the back of the deque. If no such item
-     * exists, returns null.
-     */
     @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
         }
-        right = (right - 1 + capacity) % capacity;
-        T res = items[right];
-        if (isLowUsageRate()) {
-            resize((int) (capacity * 0.5));
-        }
-        return res;
+        int removedIndex = oneMinus(nextLast);
+        T result = items[removedIndex];
+
+        items[removedIndex] = null;
+        nextLast = removedIndex;
+        size -= 1;
+        /* maybe need resize DONE */
+        cut();
+        return result;
     }
 
-    /**
-     * Gets the item at the given index, where 0 is the front, 1 is the next item,
-     * and so forth. If no such item exists, returns null. Must not alter the deque!
-     */
+    /** get the item of given index
+     * Caution : it should take constant time, I originally used iteration */
     @Override
     public T get(int index) {
-        if (index < 0 || index >= size() || isEmpty()) {
-            return null;
+        int firstIndex = onePlus(nextFirst) + index;
+        if (firstIndex >= capacity) {
+            firstIndex = firstIndex - capacity;
         }
-        if (left < right) {
-            return items[index + left];
-        } else if (left > right) {
-            if (index + left < capacity) {
-                return items[index + left];
-            } else {
-                return items[(index + left) % capacity];
-            }
-        }
-        return null;
+        return items[firstIndex];
     }
-
-    private boolean isFull() {
-        return size() == capacity - 1;
-    }
-
-    private boolean isLowUsageRate() {
-        return capacity >= 16 && size() / (double) capacity < 0.25;
-    }
-
-    private void resize(int newSize) {
-        T[] newArray = (T[]) new Object[newSize];
-
-        int size = size();
-        if (left < right) {
-            for (int i = left, j = 0; i < right && j < size; i++, j++) {
-                newArray[j] = items[i];
-            }
-        } else if (left > right) {
-            int j = 0;
-            for (int i = left; j < capacity - left; i++, j++) {
-                newArray[j] = items[i];
-            }
-            for (int i = 0; j < size; i++, j++) {
-                newArray[j] = items[i];
-            }
-        }
-        left = 0;
-        right = size;
-        items = newArray;
-        capacity = newSize;
-    }
-
 }
