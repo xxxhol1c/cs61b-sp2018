@@ -1,7 +1,7 @@
 /**This project is to implement the basic framework and method of deque,
  * some methods and implement theory has been introduced in the lecture
  * This project uses circular sentinel to implement the actual function
- * Deque (usually pronounced like “deck”) is an irregular acronym of double-ended queue.
+ * Deque is an irregular acronym of double-ended queue.
  * Double-ended queues are sequence containers with dynamic sizes
  * that can be expanded or contracted on both ends (either its front or its back).*/
 
@@ -150,9 +150,11 @@ public class LinkedListDeque<T> {
         lld3.addLast(0);
         lld3.addLast(2);
         lld3.addLast(1);
+        lld3.removeLast();
         System.out.println(lld3.getRecursive(0));
         System.out.println(lld3.getRecursive(1));
         System.out.println(lld3.getRecursive(2));
+        // should be null
         System.out.println(lld3.getRecursive(3));
 
         /* Check whether the list change */

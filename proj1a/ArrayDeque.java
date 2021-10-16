@@ -1,4 +1,3 @@
-
 public class ArrayDeque<T> {
 
     private int size;
@@ -152,7 +151,7 @@ public class ArrayDeque<T> {
     }
 
     /** get the item of given index
-     * Caution : it should take constant time, I originally used iteration */
+     * Caution : it should take constant time */
     public T get(int index) {
         int firstIndex = onePlus(nextFirst) + index;
         if (firstIndex >= capacity) {

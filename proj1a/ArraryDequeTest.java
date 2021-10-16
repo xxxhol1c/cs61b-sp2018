@@ -146,9 +146,9 @@ public class ArraryDequeTest {
         }
     }
 
-    /** Following tests are added due to my failure on GradeScope */
+    /** Following tests are added due to the GradeScope */
 
-    /* Extra test for the fill up  */
+    /* Test for the fill up  */
     @Test
     public void fillTest() {
         ArrayDeque<Integer> test8 = new ArrayDeque<>();
