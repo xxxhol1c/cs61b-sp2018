@@ -31,13 +31,13 @@ public class Palindrome {
     } */
 
     /* Check whether the given string is a Palindrome using recursion */
-    private boolean isPalindrome(String word) {
+    public boolean isPalindrome(String word) {
         Deque<Character> p = wordToDeque(word);
         return isPalindromeHelper(p);
     }
 
     /* Helper method uses recursion */
-    private boolean isPalindromeHelper(Deque<Character> p) {
+    public boolean isPalindromeHelper(Deque<Character> p) {
         if (p.isEmpty() || p.size() == 1) {
             return true;
         } else if (p.removeFirst() == p.removeLast()) {
@@ -47,12 +47,12 @@ public class Palindrome {
         }
     }
 
-    private boolean isPalindrome(String word, CharacterComparator cc) {
+    public boolean isPalindrome(String word, CharacterComparator cc) {
         Deque<Character> p = wordToDeque(word);
         return isPalindromeHelper(p, cc);
     }
 
-    private boolean isPalindromeHelper(Deque<Character> p, CharacterComparator cc) {
+    public boolean isPalindromeHelper(Deque<Character> p, CharacterComparator cc) {
         if (p.isEmpty() || p.size() == 1) {
             return true;
         } else if (cc.equalChars(p.removeFirst(), p.removeLast())) {
