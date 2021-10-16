@@ -1,19 +1,15 @@
 public class OffByN implements CharacterComparator {
 
-    private int n;
+    private int N;
 
-    public OffByN(int N) {
-        n = N;
+    public OffByN(int n) {
+        N = n;
     }
 
-    /** Returns true for characters that are off by N */
     @Override
     public boolean equalChars(char x, char y) {
         int diff = x - y;
-        if (Math.abs(diff) == n) {
-            return true;
-        }
-        return false;
+        return diff == N || diff == -N;
     }
 
 }

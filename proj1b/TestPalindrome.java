@@ -5,8 +5,6 @@ public class TestPalindrome {
     // You must use this palindrome, and not instantiate
     // new Palindromes, or the autograder might be upset.
     static Palindrome palindrome = new Palindrome();
-    static CharacterComparator offByOne = new OffByOne();
-    static CharacterComparator offBy1 = new OffByN(1);
 
     @Test
     public void testWordToDeque() {
@@ -19,75 +17,43 @@ public class TestPalindrome {
     }
 
     @Test
-    public void testIsPalindrome0Or1() {
-        String s0 = "";
-        String s1 = "a";
-        assertTrue(palindrome.isPalindrome(s0));
-        assertTrue(palindrome.isPalindrome(s1));
+    public void testIsPalindrome() {
+        assertTrue(palindrome.isPalindrome(""));
+        assertTrue(palindrome.isPalindrome("a"));
+        assertTrue(palindrome.isPalindrome("noon"));
+        assertFalse(palindrome.isPalindrome("horse"));
+        assertFalse(palindrome.isPalindrome("aaab"));
+        assertFalse(palindrome.isPalindrome("abA"));
     }
 
     @Test
-    public void testIsPalindromeOdd() {
-        String sTrue = "racecar";
-        String sFalse = "horse";
-        assertTrue(palindrome.isPalindrome(sTrue));
-        assertFalse(palindrome.isPalindrome(sFalse));
+    public void testOffByOne() {
+        CharacterComparator cc = new OffByOne();
+        assertTrue(palindrome.isPalindrome("", cc));
+        assertTrue(palindrome.isPalindrome("a", cc));
+        assertTrue(palindrome.isPalindrome("flake", cc));
+        assertFalse(palindrome.isPalindrome("aabaa", cc));
+        assertFalse(palindrome.isPalindrome("noon", cc));
     }
 
     @Test
-    public void testIsPalindromeEven() {
-        String sTrue = "noon";
-        String sFalse = "rancor";
-        assertTrue(palindrome.isPalindrome(sTrue));
-        assertFalse(palindrome.isPalindrome(sFalse));
+    public void testOffBy5() {
+        CharacterComparator cc = new OffByN(5);
+        assertTrue(palindrome.isPalindrome("", cc));
+        assertTrue(palindrome.isPalindrome("a", cc));
+        assertTrue(palindrome.isPalindrome("bing", cc));
+        assertFalse(palindrome.isPalindrome("aabaa", cc));
+        assertFalse(palindrome.isPalindrome("noon", cc));
     }
 
-    @Test
-    public void testIsPalindromeOffByOne0Or1() {
-        String s0 = "";
-        String s1 = "a";
-        assertTrue(palindrome.isPalindrome(s0, offByOne));
-        assertTrue(palindrome.isPalindrome(s1, offByOne));
-    }
-
-    @Test
-    public void testIsPalindromeOffByOneOdd() {
-        String sTrue = "flake";
-        String sFalse = "frake";
-        assertTrue(palindrome.isPalindrome(sTrue, offByOne));
-        assertFalse(palindrome.isPalindrome(sFalse, offByOne));
-    }
-
-    @Test
-    public void testIsPalindromeOffByOneEven() {
-        String sTrue = "abcb";
-        String sFalse = "abbb";
-        assertTrue(palindrome.isPalindrome(sTrue, offByOne));
-        assertFalse(palindrome.isPalindrome(sFalse, offByOne));
-    }
-    
-    @Test
-    public void testIsPalindromeOffBy10Or1() {
-        String s0 = "";
-        String s1 = "a";
-        assertTrue(palindrome.isPalindrome(s0, offBy1));
-        assertTrue(palindrome.isPalindrome(s1, offBy1));
-    }
-
-    @Test
-    public void testIsPalindromeOffBy1Odd() {
-        String sTrue = "flake";
-        String sFalse = "frake";
-        assertTrue(palindrome.isPalindrome(sTrue, offBy1));
-        assertFalse(palindrome.isPalindrome(sFalse, offBy1));
-    }
-
-    @Test
-    public void testIsPalindromeOffBy1Even() {
-        String sTrue = "abcb";
-        String sFalse = "abbb";
-        assertTrue(palindrome.isPalindrome(sTrue, offBy1));
-        assertFalse(palindrome.isPalindrome(sFalse, offBy1));
-    }
+    // @Test
+    // public void testIsPalindromeRecursive() {
+    //     assertTrue(palindrome.isPalindromeRecursive(""));
+    //     assertTrue(palindrome.isPalindromeRecursive("a"));
+    //     assertTrue(palindrome.isPalindromeRecursive("noon"));
+    //     assertFalse(palindrome.isPalindromeRecursive("horse"));
+    //     assertFalse(palindrome.isPalindromeRecursive("aaab"));
+    //     assertFalse(palindrome.isPalindromeRecursive("abA"));
+    // }
 
 }
