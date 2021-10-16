@@ -2,6 +2,8 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/xxxhol1c/cs61b-sp2018?color=9999FF)
 ## Project Progress 
 - [x] Project 0
+> Part ExtraCredit is not completed. It needs some creative ideas.  
+> Maybe finish it later.
 - [x] Project 1A   
 >   The hardest part for me is the implement of the resize method.  
 >   My tips:  Since the AD is circular, you need to consider two cases:  
