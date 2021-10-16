@@ -1,11 +1,11 @@
-/**This project is to implement the basic framework and method of deque,
- * some methods and implement theory has been introduced in the lecture
- * This project uses circular sentinel to implement the actual function
- * Deque (usually pronounced like “deck”) is an irregular acronym of double-ended queue.
- * Double-ended queues are sequence containers with dynamic sizes
- * that can be expanded or contracted on both ends (either its front or its back).*/
-
-public class LinkedListDeque<T> implements Deque<T>  {
+/**
+ * Linked-list based double ended queue, which accepts generic types.
+ * @Rule: All the method should follow "Deque API" described in
+ *  https://sp18.datastructur.es/materials/proj/proj1a/proj1a#the-deque-api
+ * @Rule: The amount of memory that this program uses at any given time must be
+ *  proportional to the number of items.
+ */
+public class LinkedListDeque<T> implements Deque<T> {
 
     private class Node {
         T item;
@@ -19,153 +19,177 @@ public class LinkedListDeque<T> implements Deque<T>  {
         }
     }
 
+    private Node sentinel; // This is circular sentinel !!
     private int size;
-    private Node sentinel;
 
-    /* create an empty deque */
+    /** Creates an empty linked list deque */
     public LinkedListDeque() {
         sentinel = new Node(null, null, null);
-        sentinel.next = sentinel;
         sentinel.prev = sentinel;
+        sentinel.next = sentinel;
+        size = 0;
     }
 
-    /* return the size */
+    /** Returns true if deque is empty, false otherwise */
+    @Override
+    public boolean isEmpty() {
+        if (sentinel.next == sentinel && sentinel.prev == sentinel && size == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /** Returns the number of items in the deque */
     @Override
     public int size() {
         return size;
     }
 
-    /* check whether is empty */
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /* print each item except sentinel with space */
+    /** Prints the items in the deque from first to last, separated by a space */
     @Override
     public void printDeque() {
-        Node curr = sentinel;
-        while (curr.next != sentinel) {
-            System.out.print(curr.next.item + " ");
-            curr = curr.next;
+        Node currentNode = sentinel;
+        while (currentNode.next != sentinel) {
+            System.out.print(currentNode.next.item + " ");
+            currentNode = currentNode.next;
         }
         System.out.println();
     }
 
-    /* add the item at the first position */
+    /** Adds an item of type T to the front of the deque.
+     * @Rule: A single operation should be executed in constant time.
+     * */
     @Override
     public void addFirst(T item) {
-        Node target = new Node(item, sentinel, sentinel.next);
-        sentinel.next = target;
-        sentinel.next.next.prev = target;
-        size++;
+        sentinel.next = new Node(item, sentinel, sentinel.next);
+        sentinel.next.next.prev = sentinel.next;
+        size += 1;
     }
 
-    /* add the item at the last position */
+    /** Adds an item of type T to the back of the deque
+     * @Rule: A single operation should be executed in constant time.
+     * */
     @Override
     public void addLast(T item) {
-        Node target = new Node(item, sentinel.prev, sentinel);
-        sentinel.prev = target;
-        sentinel.prev.prev.next = target;
-        size++;
+        sentinel.prev = new Node(item, sentinel.prev, sentinel);
+        sentinel.prev.prev.next = sentinel.prev;
+        size += 1;
     }
 
-    /* remove and return the item at the first position */
+    /** Removes and returns the item at the front of the deque. If no such item exists, returns null
+     * @Rule: A single operation should be executed in constant time.
+     */
     @Override
     public T removeFirst() {
-        if (isEmpty()) {
+        if (sentinel.next == sentinel) {
             return null;
         }
-        T node = sentinel.next.item;
+
+        T removed = sentinel.next.item;
         sentinel.next = sentinel.next.next;
         sentinel.next.prev = sentinel;
-        size--;
-        return node;
+        size -= 1;
+        return removed;
     }
 
-    /* remove and return the item at the last position */
+    /** Removes and returns the item at the back of the deque. If no such item exists, returns null
+     * @Rule: A single operation should be executed in constant time.
+     */
     @Override
     public T removeLast() {
-        if (isEmpty()) {
+        if (sentinel.prev == sentinel) {
             return null;
         }
-        T node = sentinel.prev.item;
+
+        T removed = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.next = sentinel;
-        size--;
-        return node;
+        size -= 1;
+        return removed;
     }
 
-    /* get the item at the given index */
+    /** Gets the item at the given index, where 0 is the front, 1 is the next item,
+     * and so forth. If no such items exists, returns null.
+     * @Rule: not alter the deque !
+     * @Rule: Must use iteration !
+     */
     @Override
     public T get(int index) {
-        if (index >= size || index < 0) {
+        if (index >= size) {
             return null;
         }
-        Node curr = sentinel.next;
-        while (index > 0) {
-            curr = curr.next;
-            index--;
+
+        Node currentNode = sentinel.next;
+        while (index != 0) {
+            currentNode = currentNode.next;
+            index -= 1;
         }
-        return curr.item;
+        return currentNode.item;
     }
 
-    /* uses recursive method to get the item */
+    /** Helper method for getRecursive */
+    private T getRecursiveHelper(Node currentNode, int index) {
+        if (index == 0) {
+            return currentNode.item;
+        }
+
+        return getRecursiveHelper(currentNode.next, index - 1);
+    }
+    /** Gets the item at the given index, where 0 is the front, 1 is the next item,
+     * and so forth. If no such items exists, returns null.
+     * @Rule: not alter the deque !
+     * @Rule: Must use recursion !
+     */
     public T getRecursive(int index) {
-        if (index >= size || index < 0) {
+        if (index >= size) {
             return null;
         }
+
         return getRecursiveHelper(sentinel.next, index);
     }
 
-    /* Need a helper function to resolve the node */
-    private T getRecursiveHelper(Node curr, int i) {
-        if (i == 0) {
-            return curr.item;
-        }
-        return getRecursiveHelper(curr.next, i - 1);
-    }
+    /**
+     * @NOTE: I used this main method while developing this class, but commented out this section,
+     *  in order to satisfy The Deque API.
+     */
+    /*public static void main(String[] args) {
+        LinkedListDeque<Integer> q = new LinkedListDeque<>();
 
-    /* some extra tests to check the method whether work correctly */
-    private static void main(String[] args) {
+        System.out.println("isEmpty: " + q.isEmpty());
+        System.out.println("   size: " + q.size());
+        System.out.println("removeFirst: " + q.removeFirst());
+        System.out.println("removeLast: " + q.removeLast());
+        q.printDeque();
 
-        /* Test add method and remove method work correctly */
-        LinkedListDeque<String> lld1 = new LinkedListDeque<>();
-        lld1.addFirst("Hello");
-        lld1.addLast("CS61B");
-        lld1.addLast("SP-2018");
-        System.out.println(lld1.removeFirst());
-        System.out.println(lld1.removeLast());
-        lld1.printDeque();
+        q.addFirst(1);
+        System.out.println("isEmpty: " + q.isEmpty());
+        System.out.println("   size: " + q.size());
+        System.out.println("get 0th: " + q.get(0));
+        System.out.println("get 1st: " + q.getRecursive(1));
+        q.printDeque();
 
-        /* Test get method */
-        LinkedListDeque<Integer> lld2 = new LinkedListDeque<Integer>();
-        lld2.addFirst(2);
-        lld2.addLast(0);
-        lld2.addLast(1);
-        lld2.addLast(8);
-        System.out.println(lld2.get(0));
-        System.out.println(lld2.get(1));
-        System.out.println(lld2.get(2));
-        System.out.println(lld2.get(3));
+        q.addLast(-1);
+        System.out.println("isEmpty: " + q.isEmpty());
+        System.out.println("   size: " + q.size());
+        System.out.println("get 0th: " + q.get(0));
+        System.out.println("get 1st: " + q.getRecursive(1));
+        q.printDeque();
 
-        /* Check whether the list change */
-        lld2.printDeque();
+        int removedFirst = q.removeFirst();
+        System.out.println("isEmpty: " + q.isEmpty());
+        System.out.println("   size: " + q.size());
+        System.out.println("removed: " + removedFirst);
+        System.out.println("get 0th: " + q.get(0));
+        System.out.println("get 1st: " + q.getRecursive(1));
+        q.printDeque();
 
-        /* Test getRecursive method */
-        LinkedListDeque<Integer> lld3 = new LinkedListDeque<Integer>();
-        lld3.addFirst(2);
-        lld3.addLast(0);
-        lld3.addLast(2);
-        lld3.addLast(1);
-        System.out.println(lld3.getRecursive(0));
-        System.out.println(lld3.getRecursive(1));
-        System.out.println(lld3.getRecursive(2));
-        System.out.println(lld3.getRecursive(3));
-
-        /* Check whether the list change */
-        lld3.printDeque();
-
-    }
+        int removedLast = q.removeLast();
+        System.out.println("isEmpty: " + q.isEmpty());
+        System.out.println("   size: " + q.size());
+        System.out.println("removed: " + removedLast);
+        System.out.println("get 0th: " + q.get(0));
+        System.out.println("get 1st: " + q.getRecursive(1));
+        q.printDeque();
+    }*/
 
 }

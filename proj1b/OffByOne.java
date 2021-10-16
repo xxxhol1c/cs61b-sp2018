@@ -1,8 +1,13 @@
-/* Judge whether two characters are different by one */
 public class OffByOne implements CharacterComparator {
+
+    /** Returns true for characters that are different by exactly one. */
     @Override
     public boolean equalChars(char x, char y) {
         int diff = x - y;
-        return Math.abs(diff) == 1;
+        if (Math.abs(diff) == 1) {
+            return true;
+        }
+        return false;
     }
+
 }

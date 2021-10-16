@@ -1,46 +1,56 @@
 public class Palindrome {
-    /* convert the given string to Deque */
+
+    /**
+     * Given a String,
+     * returns a Deque where the characters appear in the same order as in the String.
+     * */
     public Deque<Character> wordToDeque(String word) {
-        Deque<Character> words = new LinkedListDeque<>();
-        for (int i = 0; i < word.length(); i += 1) {
-            char item = word.charAt(i);
-            words.addLast(item);
+        Deque<Character> deque = new LinkedListDeque<>();
+        for (int i = 0; i < word.length(); i++) {
+            deque.addLast(word.charAt(i));
         }
-        return words;
+        return deque;
     }
 
-    /* Check whether the given string is a Palindrome */
+    private boolean isPalindromeHelper(Deque<Character> deque) {
+        if (deque.size() == 0 || deque.size() == 1) {
+            return true;
+        } else {
+            Character first = deque.removeFirst();
+            Character last = deque.removeLast();
+            if (first == last) {
+                return isPalindromeHelper(deque);
+            } else {
+                return false;
+            }
+        }
+    }
+    /** Returns true if the given String is a palindrome, false otherwise */
     public boolean isPalindrome(String word) {
-        Deque<Character> p = wordToDeque(word);
-        return isPalindromeHelper(p);
+        Deque<Character> deque = wordToDeque(word);
+        return isPalindromeHelper(deque);
     }
 
-    /* Helper method uses recursion */
-    private boolean isPalindromeHelper(Deque<Character> p) {
-        if (p.isEmpty() || p.size() == 1) {
+    private boolean isPalindromeHelper(Deque<Character> deque, CharacterComparator cc) {
+        if (deque.size() == 0 || deque.size() == 1) {
             return true;
-        } else if (p.removeFirst() == p.removeLast()) {
-            return isPalindromeHelper(p);
         } else {
-            return false;
+            Character first = deque.removeFirst();
+            Character last = deque.removeLast();
+            if (cc.equalChars(first, last)) {
+                return isPalindromeHelper(deque, cc);
+            } else {
+                return false;
+            }
         }
     }
-
+    /**
+     * Returns true if the given word is a palindrome according to the character comparison
+     *  test provided by the CharacterComparator passed in as argument `cc`
+     * */
     public boolean isPalindrome(String word, CharacterComparator cc) {
-        Deque<Character> p = wordToDeque(word);
-        return isPalindromeHelper(p, cc);
+        Deque<Character> deque = wordToDeque(word);
+        return isPalindromeHelper(deque, cc);
     }
 
-    private boolean isPalindromeHelper(Deque<Character> p, CharacterComparator cc) {
-        if (p.isEmpty() || p.size() == 1) {
-            return true;
-        } else if (cc.equalChars(p.removeFirst(), p.removeLast())) {
-            return isPalindromeHelper(p, cc);
-        } else {
-            return false;
-        }
-    }
 }
-
-
-

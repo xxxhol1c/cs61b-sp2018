@@ -1,171 +1,202 @@
-
+/**
+ * Array-based double ended queue, which accepts generic types.
+ * @Rule: All the method should follow "Deque API" described in
+ *  https://sp18.datastructur.es/materials/proj/proj1a/proj1a#the-deque-api
+ * @Rule: The stating size of array should be 8.
+ * @Rule: The amount of memory that this program uses at any given time must be
+ *  proportional to the number of items.
+ * @Rule: For Arrays of length 16 or more, the usage factor should always be at least 25%.
+ */
 public class ArrayDeque<T> implements Deque<T> {
 
-    private int size;
+    private static int initialCapacity = 8; // The stating length of array
+    private static int eFactor = 2; // Expanding factor
+    private static int mCapacity = 16; // The minimum capacity for contraction resizing
+    private static double mRatio = 0.25; // The minimum usage ratio before contraction
+    private static int cFactor = 2; // Contracting factor
+    private int capacity; // The length of array
+    private T[] items;
     private int nextFirst;
     private int nextLast;
-    private T[] items;
+    private int size;
 
-    /** In your tests, you may need to change capacity to the public,
-     * Don't forget to change it back */
-    private int capacity;
-    private static int minCapacity = 16;
-    private static double minUsage = 0.25;
-
-
-    /* create the empty array and make the index point
-     *  For the convenience of addFirst, I set the initial index at the last*/
+    /** Creates an empty linked array deque */
     public ArrayDeque() {
-        capacity = 8;
-        items = (T[]) new Object[capacity];
+        capacity = initialCapacity;
+        items = (T []) new Object[initialCapacity];
         nextFirst = capacity - 1;
         nextLast = 0;
         size = 0;
     }
 
-    /* Check whether the array is empty */
+    /** Returns true if deque is empty, false otherwise */
     @Override
     public boolean isEmpty() {
-        return size == 0;
+        if (size == 0) {
+            return true;
+        }
+        return false;
     }
 
-    /* return the size */
+    /** Returns the number of items in the deque
+     * @Rule: Must take constant time;
+     */
     @Override
     public int size() {
         return size;
     }
 
-    /** To implement the resize method, you need copy the current array to a new array
-     * and need to cut the original array into two pieces */
-    private void resize(int newCapacity) {
-        T[] newItems  = (T[]) new Object[newCapacity];
-        int currentFrontIndex = onePlus(nextFirst);
-        int currentEndIndex = oneMinus(nextLast);
-        // copy the two part
-        if (currentEndIndex <= currentFrontIndex) {
-            // separate the array into two parts
-            int lengthFront = capacity - currentFrontIndex;
-            int lengthEnd = currentEndIndex + 1;
-            int newFrontIndex = newCapacity - lengthFront;
-            System.arraycopy(items, currentFrontIndex, newItems, newFrontIndex, lengthFront);
-            System.arraycopy(items, 0, newItems, 0, lengthEnd);
-            nextFirst = newFrontIndex - 1;
-
-        } else {  //
-            int length = currentEndIndex - currentFrontIndex + 1;
-            System.arraycopy(items, currentFrontIndex, newItems, 0, length);
-            nextFirst = newCapacity - 1;
-            nextLast = length;
-        }
-        capacity = newCapacity;
-        items = newItems;
-    }
-
-    /* move the index forward one place and notice the circular condition */
+    /** Decreases index according to circular structure. */
     private int oneMinus(int index) {
         if (index == 0) {
             return capacity - 1;
+        } else {
+            return index - 1;
         }
-        return index - 1;
     }
-
-    /* move the index back one place and notice the circular condition */
+    /** Increases given index according to circular structure. */
     private int onePlus(int index) {
         if (index == capacity - 1) {
             return 0;
+        } else {
+            return index + 1;
         }
-        return index + 1;
     }
 
-    /* cut down the size after remove */
-    private void cut() {
-        double usage = (double) size / capacity;
-        if (capacity >= minCapacity && usage < minUsage) {
-            int newCapacity = capacity / 2;
+    /** Prints the items in the deque from front to last, separated by a space */
+    @Override
+    public void printDeque() {
+        int currentIndex = onePlus(nextFirst);
+        while (currentIndex != nextLast) {
+            System.out.print(items[currentIndex] + " ");
+            currentIndex = onePlus(currentIndex);
+        }
+        System.out.println();
+    }
+
+    /** Gets the item at the given index, where 0 is the front, 1 is the next item,
+     * and so forth. If no such items exists, returns null.
+     * @Rule: A single operation must be executed in constant time.
+     */
+    @Override
+    public T get(int index) {
+        if (index >= size) {
+            return null;
+        }
+
+        int indexFromFront = nextFirst + 1 + index;
+        if (indexFromFront >= capacity) {
+            indexFromFront -= capacity;
+        }
+        return items[indexFromFront];
+    }
+
+    /** Resize the original array to a new array with given capacity. */
+    private void resize(int newCapacity) {
+        T[] newItems = (T[]) new Object[newCapacity];
+
+        int currentFirst = onePlus(nextFirst);
+        int currentLast = oneMinus(nextLast);
+
+        if (currentFirst < currentLast) {
+            int length = currentLast - currentFirst + 1;
+            System.arraycopy(items, currentFirst, newItems, 0, length);
+            nextFirst = newCapacity - 1;
+            nextLast = length;
+        } else {
+            int lengthFirsts = capacity - currentFirst;
+            int newCurrentFirst = newCapacity - lengthFirsts;
+            int lengthLasts = nextLast;
+            System.arraycopy(items, currentFirst, newItems, newCurrentFirst, lengthFirsts);
+            System.arraycopy(items, 0, newItems, 0, lengthLasts);
+            nextFirst = newCapacity - lengthFirsts - 1;
+        }
+
+        capacity = newCapacity;
+        items = newItems;
+    }
+    /** Checks whether the array needs expansion, and if so, executes it. */
+    private void expand() {
+        if (size == capacity) {
+            int newCapacity = capacity * eFactor;
+            resize(newCapacity);
+        }
+    }
+    /** Checks whether the array needs contraction, and if so, executes it. */
+    private void contract() {
+        double ratio = (double) size / capacity;
+        if (capacity >= mCapacity && ratio < mRatio) {
+            int newCapacity = capacity / cFactor;
             resize(newCapacity);
         }
     }
 
-    /* add the item at the first position and modify the other attributes */
+    /** Adds an item of type T to the front of the deque.
+     * @Rule: A single operation should be executed in constant time,
+     *  except during resizing operation.
+     * */
     @Override
     public void addFirst(T item) {
         items[nextFirst] = item;
         nextFirst = oneMinus(nextFirst);
-        size++;
-        /* maybe need resize [Done] */
-        if (size == capacity) {
-            int newCapacity = capacity * 2;
-            resize(newCapacity);
-        }
+        size += 1;
+
+        expand(); // Expand if array is full
     }
 
-    /* add the item at the last position and modify the other attributes */
+    /** Adds an item of type T to the back of the deque
+     * @Rule: A single operation should be executed in constant time,
+     *  except during resizing operation.
+     * */
     @Override
     public void addLast(T item) {
         items[nextLast] = item;
         nextLast = onePlus(nextLast);
         size += 1;
-        /* maybe need resize [Done] */
-        if (size == capacity) {
-            int newCapacity = capacity * 2;
-            resize(newCapacity);
-        }
+
+        expand(); // Expand if array is full
     }
 
-    /* print the array deque
-     * start from the index after the nextFirst and notice the circulation */
-    @Override
-    public void printDeque() {
-        int currIndex = onePlus(nextFirst);
-        while (currIndex != nextLast) {
-            System.out.print(items[currIndex] + " ");
-            currIndex = onePlus(currIndex);
-        }
-        System.out.println();
-    }
-
-    /* remove and return the item at first or last
-     * modify the other attributes */
+    /** Removes and returns the item at the front of the deque. If no such item exists, returns null
+     * @Rule: A single operation should be executed in constant time,
+     *  except during resizing operation.
+     */
     @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
         }
-        int removedIndex = onePlus(nextFirst);
-        T result = items[removedIndex];
 
-        items[removedIndex] = null;
-        nextFirst = removedIndex;
+        int currentFirst = onePlus(nextFirst);
+        T removed = items[currentFirst];
+        items[currentFirst] = null;
+        nextFirst = currentFirst;
         size -= 1;
-        /* maybe need resize DONE */
-        cut();
-        return result;
+
+        contract(); // Contract array if it only uses less than 25% of memory
+
+        return removed;
     }
 
+    /** Removes and returns the item at the back of the deque. If no such item exists, returns null
+     * @Rule: A single operation should be executed in constant time,
+     *  except during resizing operation.
+     */
     @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
         }
-        int removedIndex = oneMinus(nextLast);
-        T result = items[removedIndex];
 
-        items[removedIndex] = null;
-        nextLast = removedIndex;
+        int currentLast = oneMinus(nextLast);
+        T removed = items[currentLast];
+        items[currentLast] = null;
+        nextLast = currentLast;
         size -= 1;
-        /* maybe need resize DONE */
-        cut();
-        return result;
+
+        contract(); // Contract array if it only uses less than 25% of memory
+
+        return removed;
     }
 
-    /** get the item of given index
-     * Caution : it should take constant time, I originally used iteration */
-    @Override
-    public T get(int index) {
-        int firstIndex = onePlus(nextFirst) + index;
-        if (firstIndex >= capacity) {
-            firstIndex = firstIndex - capacity;
-        }
-        return items[firstIndex];
-    }
 }
