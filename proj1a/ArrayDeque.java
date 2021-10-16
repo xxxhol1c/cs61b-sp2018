@@ -6,8 +6,8 @@ public class ArrayDeque<T> {
     private int nextLast;
     private T[] items;
     
-    /* In your tests, you may need to change capacity to the public, 
-    don't forget to change it back */
+    /** In your tests, you may need to change capacity to the public,
+     * Don't forget to change it back */
     private int capacity;  
     private static int minCapacity = 16;
     private static double minUsage = 0.25;
