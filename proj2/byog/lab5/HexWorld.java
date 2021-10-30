@@ -107,6 +107,7 @@ public class HexWorld {
         }
     }
 
+    // draw hexagons from the bottom
     private static void drawVertical(TETile[][] world, Position p, int size, int yRange) {
         Position nextPosition = new Position(p.xP, p.yP);
         for (int i = 0; i < yRange; i += 1) {
@@ -115,6 +116,7 @@ public class HexWorld {
         }
     }
 
+    // stupid way to expand the pattern
     private static void tesselationHexagons(TETile[][] world, Position p, int size,
                                         int xRange, int yRange) {
         Position newLeft = new Position(p.xP, p.yP);
