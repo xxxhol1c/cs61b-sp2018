@@ -119,9 +119,10 @@ public class HexWorld {
     // stupid way to expand the pattern
     private static void tesselationHexagons(TETile[][] world, Position p, int size,
                                         int xRange, int yRange) {
+        drawVertical(world, p, size, yRange);
         Position newLeft = new Position(p.xP, p.yP);
         Position newRight = new Position(p.xP, p.yP);
-        for (int i = 0; i < xRange; i += 1) {
+        for (int i = 0; i <= xRange; i += 1) {
             drawVertical(world, newLeft, size, yRange);
             newLeft.xP = newLeft.xP - 2 * size + 1;
             newLeft.yP = newLeft.yP + size;
@@ -142,7 +143,7 @@ public class HexWorld {
         // addRow(world, p, 2, t);
         // addHexagon(world, p, 4, t);
         // drawVertical(world, p, 3, 3);
-        tesselationHexagons(world, p, 4, 3, 5);
+        tesselationHexagons(world, p, 4, 2, 5);
         ter.renderFrame(world);
     }
 }
