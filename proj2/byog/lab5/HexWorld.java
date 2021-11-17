@@ -12,9 +12,8 @@ import java.util.Random;
  * Draws a world consisting of hexagonal regions.
  */
 public class HexWorld {
-
-    private static final int WIDTH = 100;
-    private static final int HEIGHT = 100;
+    private static final int WIDTH = 80;
+    private static final int HEIGHT = 80;
     private static final long SEED = 28731;
     private static final Random RANDOM = new Random(SEED);
     // set the start position to add pattern
@@ -99,7 +98,7 @@ public class HexWorld {
             case 4:
                 return Tileset.UNLOCKED_DOOR;
             case 5:
-                return Tileset.SAND;
+                return Tileset.TREE;
             case 6:
                 return Tileset.WATER;
             default:

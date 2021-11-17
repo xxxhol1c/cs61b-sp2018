@@ -28,11 +28,20 @@ public class Tileset {
     public static final TETile FLOWER = new TETile('❀', Color.magenta, Color.pink, "flower");
     public static final TETile LOCKED_DOOR = new TETile('█', Color.orange, Color.black,
             "locked door");
-    public static final TETile UNLOCKED_DOOR = new TETile('▢', Color.orange, Color.black,
+    public static final TETile UNLOCKED_DOOR = new TETile('◧', Color.orange, Color.black,
             "unlocked door");
     public static final TETile SAND = new TETile('▒', Color.yellow, Color.black, "sand");
     public static final TETile MOUNTAIN = new TETile('▲', Color.gray, Color.black, "mountain");
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree");
+    public static final TETile TREASURE = new TETile('♛', Color.orange, Color.black, "treasure");
+    public static final TETile SNAKE = new TETile('Ꮥ', Color.red, Color.black, "snake");
+    public static final TETile ATTACKED = new TETile('@', Color.RED, Color.black, "under attacked");
+    public static final TETile HEALED = new TETile('@', Color.GREEN, Color.black, "healed");
+    public static final TETile OPENEDTREASURE = new TETile('♕', Color.white, Color.black,
+            "opened treasure");
+    public static final TETile EMPTYTREASURE = new TETile('♛', Color.orange, Color.black,
+            "empty treasure");
+    public static final TETile HERB = new TETile('♣', Color.green, Color.black,
+            "herb");
 }
-
 

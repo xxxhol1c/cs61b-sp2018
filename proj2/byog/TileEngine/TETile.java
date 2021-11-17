@@ -1,9 +1,9 @@
 package byog.TileEngine;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
-
 import edu.princeton.cs.introcs.StdDraw;
 import byog.Core.RandomUtils;
 
@@ -21,7 +21,7 @@ import byog.Core.RandomUtils;
  * to make your TETile class mutable, if you prefer.
  */
 
-public class TETile {
+public class TETile implements Serializable {
     private final char character; // Do not rename character or the autograder will break.
     private final Color textColor;
     private final Color backgroundColor;
@@ -91,7 +91,6 @@ public class TETile {
                 // and just use the character and background color for the tile.
             }
         }
-
         StdDraw.setPenColor(backgroundColor);
         StdDraw.filledSquare(x + 0.5, y + 0.5, 0.5);
         StdDraw.setPenColor(textColor);
@@ -129,9 +128,7 @@ public class TETile {
         int newRed = newColorValue(oldColor.getRed(), dr, r);
         int newGreen = newColorValue(oldColor.getGreen(), dg, r);
         int newBlue = newColorValue(oldColor.getBlue(), db, r);
-
         Color c = new Color(newRed, newGreen, newBlue);
-
         return new TETile(t, c);
     }
 
@@ -178,15 +175,12 @@ public class TETile {
         if (tiles == null) {
             return null;
         }
-
         TETile[][] copy = new TETile[tiles.length][];
-
         int i = 0;
         for (TETile[] column : tiles) {
             copy[i] = Arrays.copyOf(column, column.length);
             i += 1;
         }
-
         return copy;
     }
 
@@ -205,7 +199,7 @@ public class TETile {
             return false;
         }
         TETile that = (TETile) x;
-        return this.character == that.character;
+        return this.character == that.character && this.description.equals(that.description);
     }
 
     @Override
