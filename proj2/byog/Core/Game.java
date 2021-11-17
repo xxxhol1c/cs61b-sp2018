@@ -133,9 +133,9 @@ public class Game implements Serializable {
     }
 
     /* make sure the key typed is digit*/
-    private long inputSeed(char mode) {
+    private long inputSeed(char selectedMode) {
         StringBuilder seedBuilder = new StringBuilder();
-        renderSeedMenu(mode);
+        renderSeedMenu(selectedMode);
         while (true) {
             StdDraw.enableDoubleBuffering();
             if (!StdDraw.hasNextKeyTyped()) {
@@ -147,7 +147,7 @@ public class Game implements Serializable {
             } else if (pressed == 's' || pressed == 'S') {
                 break;
             }
-            renderSeedMenu(mode);
+            renderSeedMenu(selectedMode);
             StdDraw.text(0.5, 0.45,
                     "Your seed is: " + seedBuilder);
             StdDraw.show();
