@@ -13,3 +13,22 @@
 >   
 >   To solve the case2: you need to separate the AD into two parts and respectively copy to the new AD.  
 >   You also need to revise the index attribute. `Especially case1!` Do more tests `eg. remove and fill again` to make sure you implement doesn't pass the cases coincidentally.
+- [x] Project 1B && Porject 1Gold
+- [x] Project 2 && Project 2 Gold
+>   My tips:   
+>   Phase 1: Generate the world   
+>   `Step1: Add random rooms in the world. (make some restricted condition).`  
+>   `Step2: Connect rooms with hallway (a special room).`  
+>   `Step3: Add some customized elements.` 
+>   
+>   Phase 2: Interact   
+>   `Add mouse UI (revise the render method to avoid text flashing.)`    
+>    `Save and load game.`   
+>    `Move and other control.` 
+
+>   Gold Point:   
+>   `Set the snake and herb to change the health condition.`  
+>   `Set the treasure (some contain the keys, press 'o' to get)`  
+>   `Set the light source mode to simulate the view of player.`  
+>   `When you loose your HP, the player would turn to red. And when you get HP, it turn to green.`  
+>   `More than three keys can open the door.`
