@@ -31,4 +31,4 @@
 >   `Set the treasure (some contain the keys, press 'o' to get)`  
 >   `Set the light source mode to simulate the view of player.`  
 >   `When you loose your HP, the player would turn to red. And when you get HP, it turn to green.`  
->   `More than three keys can open the door.`
+>   ` You need more than three keys to open the door.`
