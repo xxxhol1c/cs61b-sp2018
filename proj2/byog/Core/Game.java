@@ -95,9 +95,6 @@ public class Game implements Serializable {
     private void saveGame() {
         File f = new File("./Game.ser");
         try {
-            if (!f.exists()) {
-                f.createNewFile();
-            }
             FileOutputStream fs = new FileOutputStream(f);
             ObjectOutputStream os = new ObjectOutputStream(fs);
             os.writeObject(this);
@@ -115,11 +112,11 @@ public class Game implements Serializable {
         File f = new File("./Game.ser");
         if (f.exists()) {
             try {
+                System.out.println("Readable: " + f.canRead());
                 FileInputStream fs = new FileInputStream(f);
                 ObjectInputStream os = new ObjectInputStream(fs);
                 return (Game) os.readObject();
             } catch (FileNotFoundException e) {
-                System.out.println("file not found");
                 System.exit(0);
             } catch (IOException e) {
                 System.out.println(e);
@@ -384,17 +381,17 @@ public class Game implements Serializable {
         return Long.parseLong(seedBuilder.toString());
     }
 
-    private void renderSeedMenu(char mode) {
+    private void renderSeedMenu(char selectedMode) {
         StdDraw.clear(Color.black);
         StdDraw.setFont(new Font("Chalkduster", Font.PLAIN, 30));
-        if (mode == 'd' || mode == 'D') {
+        if (selectedMode == 'd' || selectedMode == 'D') {
             StdDraw.text(0.5, 0.9, "Tips: you choose difficult mode,");
             StdDraw.text(0.5, 0.85, " your sight is restricted.");
             StdDraw.text(0.5, 0.75, "Control: press W, A, S, D to move,");
             StdDraw.text(0.5, 0.7, " press O to open.");
             StdDraw.text(0.5, 0.6, "Please enter a random seed, ");
             StdDraw.text(0.5, 0.55, " then press 's' to start.");
-        } else if (mode == 'n' || mode == 'N') {
+        } else if (selectedMode == 'n' || selectedMode == 'N') {
             StdDraw.text(0.5, 0.85, "Tips: you choose normal mode.");
             StdDraw.text(0.5, 0.75, "Control: press W, A, S, D to move,");
             StdDraw.text(0.5, 0.7, " press O to open.");
