@@ -112,7 +112,6 @@ public class Game implements Serializable {
         File f = new File("./Game.ser");
         if (f.exists()) {
             try {
-                System.out.println("Readable: " + f.canRead());
                 FileInputStream fs = new FileInputStream(f);
                 ObjectInputStream os = new ObjectInputStream(fs);
                 return (Game) os.readObject();
