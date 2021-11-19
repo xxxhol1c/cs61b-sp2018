@@ -93,7 +93,7 @@ public class Game implements Serializable {
     }
 
     private void saveGame() {
-        File f = new File("./Game.ser");
+        File f = new File("./Game.txt");
         try {
             FileOutputStream fs = new FileOutputStream(f);
             ObjectOutputStream os = new ObjectOutputStream(fs);
@@ -109,7 +109,7 @@ public class Game implements Serializable {
     }
 
     private static Game getSavedGame() {
-        File f = new File("./Game.ser");
+        File f = new File("./Game.txt");
         if (f.exists()) {
             try {
                 FileInputStream fs = new FileInputStream(f);
