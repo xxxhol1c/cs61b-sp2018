@@ -176,8 +176,8 @@ public class Game implements Serializable {
             int right = 70;
             StdDraw.text(right, HEIGHT, "Keys:" + keys);
             StdDraw.show();
-            Position lD = createdWorld.getLockedDoor();
-            if (createdWorld.getTiles()[lD.getX()][lD.getY()].equals(Tileset.PLAYER)) {
+            Position lD = createdWorld.lockedDoor;
+            if (createdWorld.tiles[lD.xP][lD.yP].equals(Tileset.PLAYER)) {
                 settlement = "Congratulations! You escaped from here!";
                 gameOver = true;
             }
@@ -214,7 +214,7 @@ public class Game implements Serializable {
      * the while - loop.
      */
     private World interact(char key) {
-        Position player = createdWorld.getPlayer();
+        Position player = createdWorld.player;
         switch (key) {
             case 'a':
             case 'A':
@@ -244,10 +244,10 @@ public class Game implements Serializable {
     }
 
     private void changeHealth(World w, Position player) {
-        if (w.getTiles()[player.getX()][player.getY()].equals(Tileset.ATTACKED)) {
+        if (w.tiles[player.xP][player.yP].equals(Tileset.ATTACKED)) {
             health.delete(0, 2);
             health.append(" ♡");
-        } else if (w.getTiles()[player.getX()][player.getY()].equals(Tileset.HEALED)) {
+        } else if (w.tiles[player.xP][player.yP].equals(Tileset.HEALED)) {
             if (health.charAt(8) != '♥') {
                 int index = health.indexOf("♡");
                 health.replace(index, index + 1, "♥");
@@ -257,51 +257,51 @@ public class Game implements Serializable {
 
     private void openDoor(World w, Position player) {
         if (keys.length() >= 6) {
-            Position lockedDoor = w.getLockedDoor();
-            Position left = new Position(player.getX() - 1, player.getY());
-            Position right = new Position(player.getX() + 1, player.getY());
-            Position up = new Position(player.getX(), player.getY() + 1);
-            Position down = new Position(player.getX(), player.getY() - 1);
-            if (w.getTiles()[left.getX()][left.getY()].equals(Tileset.LOCKED_DOOR)
-                    || w.getTiles()[right.getX()][right.getY()].equals(Tileset.LOCKED_DOOR)
-                    || w.getTiles()[up.getX()][up.getY()].equals(Tileset.LOCKED_DOOR)
-                    || w.getTiles()[down.getX()][down.getY()].equals(Tileset.LOCKED_DOOR)) {
-                w.getTiles()[lockedDoor.getX()][(lockedDoor.getY())] = Tileset.UNLOCKED_DOOR;
+            Position lockedDoor = w.lockedDoor;
+            Position left = new Position(player.xP - 1, player.yP);
+            Position right = new Position(player.xP + 1, player.yP);
+            Position up = new Position(player.xP, player.yP + 1);
+            Position down = new Position(player.xP, player.yP - 1);
+            if (w.tiles[left.xP][left.yP].equals(Tileset.LOCKED_DOOR)
+                    || w.tiles[right.xP][right.yP].equals(Tileset.LOCKED_DOOR)
+                    || w.tiles[up.xP][up.yP].equals(Tileset.LOCKED_DOOR)
+                    || w.tiles[down.xP][down.yP].equals(Tileset.LOCKED_DOOR)) {
+                w.tiles[lockedDoor.xP][(lockedDoor.yP)] = Tileset.UNLOCKED_DOOR;
             }
         }
     }
 
     private void getKey() {
         World w = createdWorld;
-        Position player = w.getPlayer();
-        Position leftPos = new Position(player.getX() - 1, player.getY());
-        Position rightPos = new Position(player.getX() + 1, player.getY());
-        Position downPos = new Position(player.getX(), player.getY() - 1);
-        Position upPos = new Position(player.getX(), player.getY() + 1);
-        if (w.getTiles()[leftPos.getX()][leftPos.getY()].equals(Tileset.TREASURE)
-                || w.getTiles()[leftPos.getX()][leftPos.getY()].equals(Tileset.EMPTYTREASURE)) {
-            if (w.getTiles()[leftPos.getX()][leftPos.getY()].equals(Tileset.TREASURE)) {
+        Position player = w.player;
+        Position leftPos = new Position(player.xP - 1, player.yP);
+        Position rightPos = new Position(player.xP + 1, player.yP);
+        Position downPos = new Position(player.xP, player.yP - 1);
+        Position upPos = new Position(player.xP, player.yP + 1);
+        if (w.tiles[leftPos.xP][leftPos.yP].equals(Tileset.TREASURE)
+                || w.tiles[leftPos.xP][leftPos.yP].equals(Tileset.EMPTYTREASURE)) {
+            if (w.tiles[leftPos.xP][leftPos.yP].equals(Tileset.TREASURE)) {
                 keys += " ⥉";
             }
-            w.getTiles()[leftPos.getX()][leftPos.getY()] = Tileset.OPENEDTREASURE;
-        } else if (w.getTiles()[rightPos.getX()][rightPos.getY()].equals(Tileset.TREASURE)
-                || w.getTiles()[rightPos.getX()][rightPos.getY()].equals(Tileset.EMPTYTREASURE)) {
-            if (w.getTiles()[rightPos.getX()][rightPos.getY()].equals(Tileset.TREASURE)) {
+            w.tiles[leftPos.xP][leftPos.yP] = Tileset.OPENEDTREASURE;
+        } else if (w.tiles[rightPos.xP][rightPos.yP].equals(Tileset.TREASURE)
+                || w.tiles[rightPos.xP][rightPos.yP].equals(Tileset.EMPTYTREASURE)) {
+            if (w.tiles[rightPos.xP][rightPos.yP].equals(Tileset.TREASURE)) {
                 keys += " ⥉";
             }
-            w.getTiles()[rightPos.getX()][rightPos.getY()] = Tileset.OPENEDTREASURE;
-        } else if (w.getTiles()[upPos.getX()][upPos.getY()].equals(Tileset.TREASURE)
-                || w.getTiles()[upPos.getX()][upPos.getY()].equals(Tileset.EMPTYTREASURE)) {
-            if (w.getTiles()[upPos.getX()][upPos.getY()].equals(Tileset.TREASURE)) {
+            w.tiles[rightPos.xP][rightPos.yP] = Tileset.OPENEDTREASURE;
+        } else if (w.tiles[upPos.xP][upPos.yP].equals(Tileset.TREASURE)
+                || w.tiles[upPos.xP][upPos.yP].equals(Tileset.EMPTYTREASURE)) {
+            if (w.tiles[upPos.xP][upPos.yP].equals(Tileset.TREASURE)) {
                 keys += " ⥉";
             }
-            w.getTiles()[upPos.getX()][upPos.getY()] = Tileset.OPENEDTREASURE;
-        } else if (w.getTiles()[downPos.getX()][downPos.getY()].equals(Tileset.TREASURE)
-                || w.getTiles()[downPos.getX()][downPos.getY()].equals(Tileset.EMPTYTREASURE)) {
-            if (w.getTiles()[downPos.getX()][downPos.getY()].equals(Tileset.TREASURE)) {
+            w.tiles[upPos.xP][upPos.yP] = Tileset.OPENEDTREASURE;
+        } else if (w.tiles[downPos.xP][downPos.yP].equals(Tileset.TREASURE)
+                || w.tiles[downPos.xP][downPos.yP].equals(Tileset.EMPTYTREASURE)) {
+            if (w.tiles[downPos.xP][downPos.yP].equals(Tileset.TREASURE)) {
                 keys += " ⥉";
             }
-            w.getTiles()[downPos.getX()][downPos.getY()] = Tileset.OPENEDTREASURE;
+            w.tiles[downPos.xP][downPos.yP] = Tileset.OPENEDTREASURE;
         }
     }
 
@@ -343,12 +343,12 @@ public class Game implements Serializable {
                 }
             }
             enterWithInput(start, input);
-            return createdWorld.getTiles();
+            return createdWorld.tiles;
         } else if (choose == 'l' || choose == 'L') {
             Game game = getSavedGame();
             this.createdWorld = game.createdWorld;
             enterWithInput(1, input);
-            return createdWorld.getTiles();
+            return createdWorld.tiles;
         } else if (choose == 'q' || choose == 'Q') {
             return null;
         }

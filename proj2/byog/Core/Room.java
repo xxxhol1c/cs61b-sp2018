@@ -9,16 +9,8 @@ import java.util.Random;
  * Add some methods to help judge the room is valid.
  */
 public class Room implements Comparable<Room>, Serializable {
-    private final Position bottomLeft;
-    private final Position upperRight;
-
-    public Position getBottomLeft() {
-        return bottomLeft;
-    }
-
-    public Position getUpperRight() {
-        return upperRight;
-    }
+    protected final Position bottomLeft;
+    protected final Position upperRight;
 
     public Room(Position bl, Position ur) {
         bottomLeft = bl;
@@ -28,38 +20,38 @@ public class Room implements Comparable<Room>, Serializable {
     public boolean canConstruct() {
         int maxHeight = 6;
         int maxWidth = 8;
-        return  bottomLeft.getX() < upperRight.getX() - 2
-                && bottomLeft.getY() < upperRight.getY() - 2
+        return  bottomLeft.xP < upperRight.xP - 2
+                && bottomLeft.yP < upperRight.yP - 2
                 && this.getWidth() <= maxWidth
                 && this.getHeight() <= maxHeight;
     }
 
     public boolean isOverlap(Room r) {
-        return !((this.getUpperRight().getX() < r.getBottomLeft().getX())
-                || (r.getUpperRight().getX() < this.getBottomLeft().getX())
-                || (this.getUpperRight().getY() < r.getBottomLeft().getY())
-                || (r.getUpperRight().getY() < this.getBottomLeft().getY()));
+        return !((this.upperRight.xP < r.bottomLeft.xP)
+                || (r.upperRight.xP < this.bottomLeft.xP)
+                || (this.upperRight.yP < r.bottomLeft.yP)
+                || (r.upperRight.yP < this.bottomLeft.yP));
     }
 
 
     public Position connectPosition(World world) {
-        Random rand = new Random(world.getSeed());
+        Random rand = new Random(world.seed);
         return new Position(
-                RandomUtils.uniform(rand, bottomLeft.getX() + 1, upperRight.getX()),
-                RandomUtils.uniform(rand, bottomLeft.getY() + 1, upperRight.getY()));
+                RandomUtils.uniform(rand, bottomLeft.xP + 1, upperRight.xP),
+                RandomUtils.uniform(rand, bottomLeft.yP + 1, upperRight.yP));
     }
 
     public int getWidth() {
-        return this.upperRight.getX() - this.bottomLeft.getX();
+        return this.upperRight.xP - this.bottomLeft.xP;
     }
 
     public int getHeight() {
-        return this.upperRight.getY() - this.bottomLeft.getY();
+        return this.upperRight.yP - this.bottomLeft.yP;
     }
 
     @Override
     public int compareTo(Room room) {
-        return this.bottomLeft.getX() - room.bottomLeft.getX();
+        return this.bottomLeft.xP - room.bottomLeft.xP;
     }
 
 }

@@ -6,10 +6,9 @@ import java.io.Serializable;
 
 
 public class Position implements Serializable {
-    private int xP;
-    private int yP;
+    protected int xP;
+    protected int yP;
     private TETile previous = Tileset.FLOOR;
-
 
     public Position(int x, int y) {
         xP = x;
@@ -63,116 +62,116 @@ public class Position implements Serializable {
      * @param w created world in the game
      */
     public void moveLeft(World w) {
-        if (w.getTiles()[xP - 1][yP].equals(Tileset.SNAKE)) {
-            w.getTiles()[xP - 1][yP] = Tileset.ATTACKED;
-            w.getTiles()[xP][yP] = previous;
+        if (w.tiles[xP - 1][yP].equals(Tileset.SNAKE)) {
+            w.tiles[xP - 1][yP] = Tileset.ATTACKED;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.SNAKE;
             xP = xP - 1;
-        } else if (w.getTiles()[xP - 1][yP].equals(Tileset.OPENEDTREASURE)) {
-            w.getTiles()[xP - 1][yP] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP - 1][yP].equals(Tileset.OPENEDTREASURE)) {
+            w.tiles[xP - 1][yP] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.OPENEDTREASURE;
             xP = xP - 1;
-        } else if (w.getTiles()[xP - 1][yP].equals(Tileset.FLOOR)) {
-            w.getTiles()[xP - 1][yP] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP - 1][yP].equals(Tileset.FLOOR)) {
+            w.tiles[xP - 1][yP] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             xP = xP - 1;
-        } else if (w.getTiles()[xP - 1][yP].equals(Tileset.HERB)) {
-            w.getTiles()[xP - 1][yP] = Tileset.HEALED;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP - 1][yP].equals(Tileset.HERB)) {
+            w.tiles[xP - 1][yP] = Tileset.HEALED;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             xP = xP - 1;
-        } else if (w.getTiles()[xP - 1][yP].equals(Tileset.UNLOCKED_DOOR)) {
-            w.getTiles()[xP - 1][yP] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP - 1][yP].equals(Tileset.UNLOCKED_DOOR)) {
+            w.tiles[xP - 1][yP] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             xP = xP - 1;
         }
     }
 
     public void moveRight(World w) {
-        if (w.getTiles()[xP + 1][yP].equals(Tileset.SNAKE)) {
-            w.getTiles()[xP + 1][yP] = Tileset.ATTACKED;
-            w.getTiles()[xP][yP] = previous;
+        if (w.tiles[xP + 1][yP].equals(Tileset.SNAKE)) {
+            w.tiles[xP + 1][yP] = Tileset.ATTACKED;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.SNAKE;
             xP = xP + 1;
-        } else if (w.getTiles()[xP + 1][yP].equals(Tileset.OPENEDTREASURE)) {
-            w.getTiles()[xP + 1][yP] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP + 1][yP].equals(Tileset.OPENEDTREASURE)) {
+            w.tiles[xP + 1][yP] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.OPENEDTREASURE;
             xP = xP + 1;
-        } else if (w.getTiles()[xP + 1][yP].equals(Tileset.FLOOR)) {
-            w.getTiles()[xP + 1][yP] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP + 1][yP].equals(Tileset.FLOOR)) {
+            w.tiles[xP + 1][yP] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             xP = xP + 1;
-        } else if (w.getTiles()[xP + 1][yP].equals(Tileset.HERB)) {
-            w.getTiles()[xP + 1][yP] = Tileset.HEALED;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP + 1][yP].equals(Tileset.HERB)) {
+            w.tiles[xP + 1][yP] = Tileset.HEALED;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             xP = xP + 1;
-        } else if (w.getTiles()[xP + 1][yP].equals(Tileset.UNLOCKED_DOOR)) {
-            w.getTiles()[xP + 1][yP] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP + 1][yP].equals(Tileset.UNLOCKED_DOOR)) {
+            w.tiles[xP + 1][yP] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             xP = xP + 1;
         }
     }
 
     public void moveUp(World w) {
-        if (w.getTiles()[xP][yP + 1].equals(Tileset.SNAKE)) {
-            w.getTiles()[xP][yP + 1] = Tileset.ATTACKED;
-            w.getTiles()[xP][yP] = previous;
+        if (w.tiles[xP][yP + 1].equals(Tileset.SNAKE)) {
+            w.tiles[xP][yP + 1] = Tileset.ATTACKED;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.SNAKE;
             yP = yP + 1;
-        } else if (w.getTiles()[xP][yP + 1].equals(Tileset.OPENEDTREASURE)) {
-            w.getTiles()[xP][yP + 1] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP][yP + 1].equals(Tileset.OPENEDTREASURE)) {
+            w.tiles[xP][yP + 1] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.OPENEDTREASURE;
             yP = yP + 1;
-        } else if (w.getTiles()[xP][yP + 1].equals(Tileset.FLOOR)) {
-            w.getTiles()[xP][yP + 1] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP][yP + 1].equals(Tileset.FLOOR)) {
+            w.tiles[xP][yP + 1] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             yP = yP + 1;
-        } else if (w.getTiles()[xP][yP + 1].equals(Tileset.HERB)) {
-            w.getTiles()[xP][yP + 1] = Tileset.HEALED;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP][yP + 1].equals(Tileset.HERB)) {
+            w.tiles[xP][yP + 1] = Tileset.HEALED;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             yP = yP + 1;
-        } else if (w.getTiles()[xP][yP + 1].equals(Tileset.UNLOCKED_DOOR)) {
-            w.getTiles()[xP][yP + 1] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP][yP + 1].equals(Tileset.UNLOCKED_DOOR)) {
+            w.tiles[xP][yP + 1] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             yP = yP + 1;
         }
     }
 
     public void moveDown(World w) {
-        if (w.getTiles()[xP][yP - 1].equals(Tileset.SNAKE)) {
-            w.getTiles()[xP][yP - 1] = Tileset.ATTACKED;
-            w.getTiles()[xP][yP] = previous;
+        if (w.tiles[xP][yP - 1].equals(Tileset.SNAKE)) {
+            w.tiles[xP][yP - 1] = Tileset.ATTACKED;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.SNAKE;
             yP = yP - 1;
-        } else if (w.getTiles()[xP][yP - 1].equals(Tileset.OPENEDTREASURE)) {
-            w.getTiles()[xP][yP - 1] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP][yP - 1].equals(Tileset.OPENEDTREASURE)) {
+            w.tiles[xP][yP - 1] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.OPENEDTREASURE;
             yP = yP - 1;
-        } else if (w.getTiles()[xP][yP - 1].equals(Tileset.FLOOR)) {
-            w.getTiles()[xP][yP - 1] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP][yP - 1].equals(Tileset.FLOOR)) {
+            w.tiles[xP][yP - 1] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             yP = yP - 1;
-        } else if (w.getTiles()[xP][yP - 1].equals(Tileset.HERB)) {
-            w.getTiles()[xP][yP - 1] = Tileset.HEALED;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP][yP - 1].equals(Tileset.HERB)) {
+            w.tiles[xP][yP - 1] = Tileset.HEALED;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             yP = yP - 1;
-        } else if (w.getTiles()[xP][yP - 1].equals(Tileset.UNLOCKED_DOOR)) {
-            w.getTiles()[xP][yP - 1] = Tileset.PLAYER;
-            w.getTiles()[xP][yP] = previous;
+        } else if (w.tiles[xP][yP - 1].equals(Tileset.UNLOCKED_DOOR)) {
+            w.tiles[xP][yP - 1] = Tileset.PLAYER;
+            w.tiles[xP][yP] = previous;
             previous = Tileset.FLOOR;
             yP = yP - 1;
         }

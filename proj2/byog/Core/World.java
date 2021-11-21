@@ -18,13 +18,13 @@ import java.util.Random;
 public class World extends Game implements Serializable {
     private final int width;
     private final int height;
-    private final long seed;
-    private final TETile[][] tiles;
+    protected final long seed;
+    protected final TETile[][] tiles;
     private ArrayList<Room> roomList;
     private final int maxRoomNum = 30;
     private final Random rand;
-    private Position player;
-    private Position lockedDoor;
+    protected Position player;
+    protected Position lockedDoor;
 
     public World(int w, int h, long s) {
         tiles = new TETile[w][h];
@@ -38,16 +38,8 @@ public class World extends Game implements Serializable {
         return tiles;
     }
 
-    public long getSeed() {
-        return seed;
-    }
-
     public Position getPlayer() {
         return player;
-    }
-
-    public Position getLockedDoor() {
-        return lockedDoor;
     }
 
     private void fillWithNothing() {
@@ -60,10 +52,10 @@ public class World extends Game implements Serializable {
 
     /* avoid the room would not cross the boundary of world*/
     private boolean haveCapacity(Room r) {
-        return r.getBottomLeft().getX() >= 0 && r.getBottomLeft().getX() <= width - 1
-                && r.getUpperRight().getX() >= 0 && r.getUpperRight().getX() < width - 1
-                && r.getBottomLeft().getY() >= 0 && r.getBottomLeft().getY() <= height - 1
-                && r.getUpperRight().getY() >= 0 && r.getUpperRight().getY() < height - 1;
+        return r.bottomLeft.xP >= 0 && r.bottomLeft.xP <= width - 1
+                && r.upperRight.xP >= 0 && r.upperRight.xP < width - 1
+                && r.bottomLeft.yP >= 0 && r.bottomLeft.yP <= height - 1
+                && r.upperRight.yP >= 0 && r.upperRight.yP < height - 1;
     }
 
     /*
@@ -110,13 +102,13 @@ public class World extends Game implements Serializable {
      * This would help in the construction of hallway
      */
     private void constructRoom(Room r) {
-        for (int i = r.getBottomLeft().getX(); i <= r.getUpperRight().getX(); i += 1) {
-            for (int j = r.getBottomLeft().getY(); j <= r.getUpperRight().getY(); j += 1) {
+        for (int i = r.bottomLeft.xP; i <= r.upperRight.xP; i += 1) {
+            for (int j = r.bottomLeft.yP; j <= r.upperRight.yP; j += 1) {
                 if (this.tiles[i][j] != Tileset.FLOOR) {
-                    if (i == r.getBottomLeft().getX()
-                            || i == r.getUpperRight().getX()
-                            || j == r.getBottomLeft().getY()
-                            || j == r.getUpperRight().getY()) {
+                    if (i == r.bottomLeft.xP
+                            || i == r.upperRight.xP
+                            || j == r.bottomLeft.yP
+                            || j == r.upperRight.yP) {
                         this.tiles[i][j] = Tileset.WALL;
                     } else {
                         this.tiles[i][j] = Tileset.FLOOR;
@@ -137,8 +129,8 @@ public class World extends Game implements Serializable {
      */
 
     private Room addParallelHallway(Position s, Position e) {
-        Position bl = new Position(s.getX() - 1, s.getY() - 1);
-        Position ur = new Position(e.getX() + 1, e.getY() + 1);
+        Position bl = new Position(s.xP - 1, s.yP - 1);
+        Position ur = new Position(e.xP + 1, e.yP + 1);
         return new Room(bl, ur);
     }
 
@@ -157,7 +149,7 @@ public class World extends Game implements Serializable {
         Position e = Position.rightPosition(p1, p2);
         switch (choose) {
             case 0: {
-                Position corner = new Position(e.getX(), s.getY());
+                Position corner = new Position(e.xP, s.yP);
                 Room parallelRoom = addParallelHallway(s, corner);
                 Room verticalRoom = addVerticalHallway(corner, e);
                 constructRoom(parallelRoom);
@@ -165,7 +157,7 @@ public class World extends Game implements Serializable {
                 break;
             }
             case 1: {
-                Position corner = new Position(s.getX(), e.getY());
+                Position corner = new Position(s.xP, e.yP);
                 Room verticalRoom = addVerticalHallway(s, corner);
                 Room parallelRoom = addParallelHallway(corner, e);
                 constructRoom(parallelRoom);
@@ -195,19 +187,19 @@ public class World extends Game implements Serializable {
                     RandomUtils.uniform(rand, 1, height - 1));
             Position p2 = new Position(RandomUtils.uniform(rand, 1, width - 1),
                     RandomUtils.uniform(rand, 1, height - 1));
-            if (((tiles[p.getX() - 1][p.getY()] == Tileset.NOTHING
-                    && tiles[p.getX() + 1][p.getY()] == Tileset.FLOOR)
-                    || (tiles[p.getX() + 1][p.getY()] == Tileset.NOTHING
-                    && tiles[p.getX() - 1][p.getY()] == Tileset.FLOOR)
-                    || (tiles[p.getX()][p.getY() - 1] == Tileset.NOTHING
-                    && tiles[p.getX()][p.getY() + 1] == Tileset.FLOOR)
-                    || (tiles[p.getX()][p.getY() + 1] == Tileset.NOTHING
-                    && tiles[p.getX()][p.getY() - 1] == Tileset.FLOOR))
-                    && (tiles[p2.getX()][p2.getY()]) == Tileset.FLOOR
-                    && Math.abs(p.getX() - p2.getX()) >= 40
-                    && Math.abs(p.getY() - p2.getY()) >= 15) {
-                tiles[p.getX()][p.getY()] = Tileset.LOCKED_DOOR;
-                tiles[p2.getX()][p2.getY()] = Tileset.PLAYER;
+            if (((tiles[p.xP - 1][p.yP] == Tileset.NOTHING
+                    && tiles[p.xP + 1][p.yP] == Tileset.FLOOR)
+                    || (tiles[p.xP + 1][p.yP] == Tileset.NOTHING
+                    && tiles[p.xP - 1][p.yP] == Tileset.FLOOR)
+                    || (tiles[p.xP][p.yP - 1] == Tileset.NOTHING
+                    && tiles[p.xP][p.yP + 1] == Tileset.FLOOR)
+                    || (tiles[p.xP][p.yP + 1] == Tileset.NOTHING
+                    && tiles[p.xP][p.yP - 1] == Tileset.FLOOR))
+                    && (tiles[p2.xP][p2.yP]) == Tileset.FLOOR
+                    && Math.abs(p.xP - p2.xP) >= 40
+                    && Math.abs(p.yP - p2.yP) >= 15) {
+                tiles[p.xP][p.yP] = Tileset.LOCKED_DOOR;
+                tiles[p2.xP][p2.yP] = Tileset.PLAYER;
                 lockedDoor = p;
                 player = p2;
                 break;
@@ -223,10 +215,10 @@ public class World extends Game implements Serializable {
     private void addTreasure() {
         for (Room room : roomList) {
             int choose = rand.nextInt(5);
-            int targetX = RandomUtils.uniform(rand, room.getBottomLeft().getX() + 1,
-                    room.getUpperRight().getX());
-            int targetY = RandomUtils.uniform(rand, room.getBottomLeft().getY() + 1,
-                    room.getUpperRight().getY());
+            int targetX = RandomUtils.uniform(rand, room.bottomLeft.xP + 1,
+                    room.upperRight.xP);
+            int targetY = RandomUtils.uniform(rand, room.bottomLeft.yP + 1,
+                    room.upperRight.yP);
             if (choose == 2) {
                 tiles[targetX][targetY] = Tileset.TREASURE;
             } else {
@@ -240,8 +232,8 @@ public class World extends Game implements Serializable {
         while (count < 15) {
             Position p = new Position(RandomUtils.uniform(rand, 1, width - 1),
                     RandomUtils.uniform(rand, 1, height - 1));
-            if (tiles[p.getX()][p.getY()] == Tileset.FLOOR) {
-                tiles[p.getX()][p.getY()] = Tileset.SNAKE;
+            if (tiles[p.xP][p.yP] == Tileset.FLOOR) {
+                tiles[p.xP][p.yP] = Tileset.SNAKE;
                 count += 1;
             }
         }
@@ -252,8 +244,8 @@ public class World extends Game implements Serializable {
         while (count < 10) {
             Position p = new Position(RandomUtils.uniform(rand, 1, width - 1),
                     RandomUtils.uniform(rand, 1, height - 1));
-            if (tiles[p.getX()][p.getY()] == Tileset.FLOOR) {
-                tiles[p.getX()][p.getY()] = Tileset.HERB;
+            if (tiles[p.xP][p.yP] == Tileset.FLOOR) {
+                tiles[p.xP][p.yP] = Tileset.HERB;
                 count += 1;
             }
         }
