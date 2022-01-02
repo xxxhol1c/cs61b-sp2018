@@ -44,7 +44,7 @@ public class Percolation {
 
     public Percolation(int N) {
         if (N <= 0) {
-            throw new IndexOutOfBoundsException("N must greater than zero");
+            throw new IllegalArgumentException("N must greater than zero");
         }
         length = N;
         status = new boolean[N * N];
@@ -109,11 +109,18 @@ public class Percolation {
     }
 
     public boolean percolates() {
+        if (length == 1) {
+            return isOpen(0, 0);
+        }
         return topBottomSite.connected(top, bottom);
     }
 
     public int numberOfOpenSites() {
         return numOpen;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
 
