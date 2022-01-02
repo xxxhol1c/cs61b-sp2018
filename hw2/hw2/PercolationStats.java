@@ -12,9 +12,9 @@ public class PercolationStats {
             throw new IllegalArgumentException();
         }
         times = T;
+        fractions = new double[T];
         for (int i = 0; i < T; i += 1) {
             Percolation p = pf.make(N);
-            fractions = new double[T];
             while (!p.percolates()) {
                 int row = StdRandom.uniform(0, N);
                 int col = StdRandom.uniform(0, N);
