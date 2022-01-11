@@ -97,11 +97,14 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        HashSet<K> keySet1 = new HashSet<>();
-        for (int i = 0; i < size; i += 1) {
-            keySet1.addAll(buckets[i].keySet());
+        if (size() == 0){
+            return null;
         }
-        return keySet1;
+        HashSet<K> keys = new HashSet<>();
+        for (ArrayMap<K, V> bucket : buckets) {
+            keys.addAll(bucket.keySet());
+        }
+        return keys;
     }
 
     /* Removes the mapping for the specified key from this map if exists.
