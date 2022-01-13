@@ -1,6 +1,6 @@
 package hw3.hash;
 import java.awt.Color;
-import java.util.Objects;
+
 
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdDraw;
@@ -18,7 +18,8 @@ public class SimpleOomage implements Oomage {
     public boolean equals(Object o) {
         if (this == o) {
             return true;
-        } if (o == null || getClass() != o.getClass()) {
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         SimpleOomage other = (SimpleOomage) o;
