@@ -210,13 +210,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         double prevPriority;
         for (int i = 1; i <= size; i += 1) {
             if (contents[i].item().equals(item)) {
-                target = i;
-                prevPriority = contents[target].priority();
-                contents[target] = new Node(item, priority);
+                prevPriority = contents[i].priority();
+                contents[i] = new Node(item, priority);
                 if (priority >= prevPriority) {
-                    sink(target);
+                    sink(i);
                 } else {
-                    swim(target);
+                    swim(i);
                 }
             }
         }
