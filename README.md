@@ -28,7 +28,7 @@
 
 >   Gold Point:   
 >   `Set the snake and herb to change the health condition.`  
->   `Set the treasure (some contain the keys, press 'o' to get)`  
+>   `Set the treasure (some contain the keys, press 'o' to get).`  
 >   `Set the light source mode to simulate the view of player.`  
->   `When you loose your HP, the player would turn to red. And when you get HP, it turn to green.`  
+>   `Your icon will turn green when you restore health and will turn red when you take damage.`  
 >   ` You need more than three keys to open the door.`
