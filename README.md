@@ -31,4 +31,4 @@
 >   `Set the treasure (some contain the keys, press 'o' to get).`  
 >   `Set the light source mode to simulate the view of player.`  
 >   `Your icon will turn green when you restore health and will turn red when you take damage.`  
->   ` You need more than three keys to open the door.`
+>   `You need more than three keys to open the door.`
