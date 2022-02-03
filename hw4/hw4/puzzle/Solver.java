@@ -18,7 +18,8 @@ public class Solver {
 
         @Override
         public int compareTo(SearchNode o) {
-            return this.move + this.ws.estimatedDistanceToGoal() - o.move - o.ws.estimatedDistanceToGoal();
+            return this.move + this.ws.estimatedDistanceToGoal()
+                    - o.move - o.ws.estimatedDistanceToGoal();
         }
     }
 
@@ -29,7 +30,7 @@ public class Solver {
     public Solver(WorldState initial) {
         SearchNode curNode  = new SearchNode(initial, 0, null);
         nextNodes.insert(curNode);
-        while(!nextNodes.isEmpty()) {
+        while (!nextNodes.isEmpty()) {
             curNode = nextNodes.delMin();
             if (curNode.ws.isGoal()) {
                 break;
@@ -57,7 +58,7 @@ public class Solver {
     /**
      * test for the critical optimization
      */
-    public int test() {
+    int test() {
         return enqueNum;
     }
 }
