@@ -58,7 +58,7 @@ public class Solver {
     /**
      * test for the critical optimization
      */
-    int test() {
+    private int test() {
         return enqueNum;
     }
 }
